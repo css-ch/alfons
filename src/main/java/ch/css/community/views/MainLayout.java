@@ -4,7 +4,6 @@ package ch.css.community.views;
 import ch.css.community.components.appnav.AppNav;
 import ch.css.community.components.appnav.AppNavItem;
 import ch.css.community.views.about.AboutView;
-import ch.css.community.views.welcome.WelcomeView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Footer;
@@ -53,7 +52,6 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
-        nav.addItem(new AppNavItem("Welcome", WelcomeView.class, "la la-peace"));
         nav.addItem(new AppNavItem("About", AboutView.class, "la la-info-circle"));
 
         return nav;
