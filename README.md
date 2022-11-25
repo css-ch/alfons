@@ -1,7 +1,7 @@
 # Alfons
 
-This project can be used as a starting point to create your own Vaadin application with Spring Boot.
-It contains all the necessary configuration and some placeholder files to get you started.
+**An open-source application for companies to manage requests from their employees to attend a conference.
+With approval workflow, budget management, and reports.**
 
 ## Running the application
 
