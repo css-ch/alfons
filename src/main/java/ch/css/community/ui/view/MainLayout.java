@@ -74,7 +74,6 @@ public class MainLayout extends AppLayout {
     private MenuBar createAvatarMenu() {
         final var menuBar = new MenuBar();
         menuBar.addThemeVariants(MenuBarVariant.LUMO_TERTIARY_INLINE);
-        menuBar.setOpenOnHover(true);
 
         final var menuItem = menuBar.addItem(createAvatar());
         final var subMenu = menuItem.getSubMenu();
