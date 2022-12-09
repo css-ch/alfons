@@ -1,6 +1,7 @@
 package ch.css.community.ui.view;
 
 
+import ch.css.community.alfons.data.db.enums.UserTheme;
 import ch.css.community.components.appnav.AppNav;
 import ch.css.community.components.appnav.AppNavItem;
 import ch.css.community.security.AuthenticatedUser;
@@ -8,6 +9,7 @@ import ch.css.community.ui.view.about.AboutView;
 import ch.css.community.ui.view.conference.ConferencesView;
 import ch.css.community.ui.view.settings.SettingsView;
 import ch.css.community.util.GravatarUtil;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -15,6 +17,7 @@ import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -40,6 +43,8 @@ public class MainLayout extends AppLayout {
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
+
+        authenticatedUser.get().ifPresent(user -> UI.getCurrent().getElement().setAttribute("theme", user.getTheme().getLiteral()));
     }
 
     private void addHeaderContent() {
@@ -69,7 +74,38 @@ public class MainLayout extends AppLayout {
 
         final var menuItem = menuBar.addItem(createAvatar());
         final var subMenu = menuItem.getSubMenu();
+        final var darkThemeItem = subMenu.addItem("Dark Theme");
+        final var lightThemeItem = subMenu.addItem("Light Theme");
+        subMenu.add(new Hr());
         subMenu.addItem("Logout", e -> authenticatedUser.logout());
+
+        darkThemeItem.setCheckable(true);
+        lightThemeItem.setCheckable(true);
+        authenticatedUser.get().ifPresent(user -> {
+            switch (user.getTheme()) {
+                case dark -> darkThemeItem.setChecked(true);
+                case light -> lightThemeItem.setChecked(true);
+                default -> throw new IllegalStateException("Unexpected value: " + user.getTheme());
+            }
+        });
+
+        darkThemeItem.addClickListener(clickEvent -> {
+            authenticatedUser.get().ifPresent(user -> {
+                user.setTheme(UserTheme.dark);
+                user.store();
+            });
+            UI.getCurrent().getElement().setAttribute("theme", "dark");
+            lightThemeItem.setChecked(false);
+        });
+
+        lightThemeItem.addClickListener(clickEvent -> {
+            authenticatedUser.get().ifPresent(user -> {
+                user.setTheme(UserTheme.light);
+                user.store();
+            });
+            UI.getCurrent().getElement().setAttribute("theme", "light");
+            darkThemeItem.setChecked(false);
+        });
 
         return menuBar;
     }
