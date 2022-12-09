@@ -35,8 +35,8 @@ public final class Configuration {
     public String getWebsiteBaseUrl() {
         return configuration.getOrDefault("website.url", "http://localhost:8080");
     }
-    public String getWebsiteContactEmail() {
-        return configuration.getOrDefault("website.contact.email", "noreply@localhost");
+    public String getEmailSenderAddress() {
+        return configuration.getOrDefault("email.sender.address", "noreply@localhost");
     }
 
 }
