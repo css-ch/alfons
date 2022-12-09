@@ -1,6 +1,6 @@
 /*
- * Komunumo - Open Source Community Manager
- * Copyright (C) Marcus Fihlon and the individual contributors to Komunumo.
+ * Alfons - Make Community Management Great Again
+ * Copyright (C) Marcus Fihlon and the individual contributors to Alfons.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -53,8 +53,8 @@ public final class LoginView extends LoginOverlay implements BeforeEnterObserver
         final var i18n = LoginI18n.createDefault();
 
         i18n.setHeader(new LoginI18n.Header());
-        i18n.getHeader().setTitle("Komunumo");
-        i18n.getHeader().setDescription("Java User Group Switzerland");
+        i18n.getHeader().setTitle("Alfons");
+        i18n.getHeader().setDescription("Make Community Management Great Again");
         i18n.setAdditionalInformation(null);
 
         i18n.getForm().setSubmit("Login");

@@ -1,6 +1,6 @@
 /*
- * Komunumo - Open Source Community Manager
- * Copyright (C) Marcus Fihlon and the individual contributors to Komunumo.
+ * Alfons - Make Community Management Great Again
+ * Copyright (C) Marcus Fihlon and the individual contributors to Alfons.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
