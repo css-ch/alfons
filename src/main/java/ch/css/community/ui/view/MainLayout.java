@@ -1,4 +1,4 @@
-package ch.css.community.views;
+package ch.css.community.ui.view;
 
 
 import ch.css.community.components.appnav.AppNav;
@@ -54,6 +54,7 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
+        nav.addItem(new AppNavItem("Settings", SettingsView.class, "la la-cog"));
         nav.addItem(new AppNavItem("About", AboutView.class, "la la-info-circle"));
 
         return nav;
