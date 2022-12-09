@@ -4,6 +4,7 @@ CREATE TABLE `conference` (
     `name` VARCHAR(255) NOT NULL,
     `begin_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
+    `website` VARCHAR(255) NOT NULL DEFAULT '',
 
     PRIMARY KEY (`id`)
 );
