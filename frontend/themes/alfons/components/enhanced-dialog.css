@@ -1,0 +1,78 @@
+/*
+ * Alfons - Make Community Management Great Again
+ * Copyright (C) Marcus Fihlon and the individual contributors to Alfons.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+[theme~="alfons-dialog"] flow-component-renderer > div {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* HEADER */
+[theme~="alfons-dialog"] header {
+    align-items: center;
+    display: flex;
+    /*noinspection CssUnresolvedCustomProperty*/
+    padding: var(--lumo-space-xs) var(--lumo-space-m);
+}
+
+[theme~="alfons-dialog"] header .dialog-title {
+    /*noinspection CssUnresolvedCustomProperty*/
+    font-size: var(--lumo-font-size-m);
+    margin: 0 auto 0 0;
+}
+
+[theme~="alfons-dialog"] header vaadin-button:not(:last-child) {
+    /*noinspection CssUnresolvedCustomProperty*/
+    margin-right: var(--lumo-space-xs);
+}
+
+/* CONTENT */
+[theme~="alfons-dialog"] .dialog-content {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+/* FOOTER */
+[theme~="alfons-dialog"] footer {
+    /*noinspection CssUnresolvedCustomProperty*/
+    box-shadow: 0 -1px var(--lumo-contrast-20pct);
+    display: flex;
+    /*noinspection CssUnresolvedCustomProperty*/
+    padding: var(--lumo-space-xs) var(--lumo-space-m);
+    z-index: 1;
+}
+
+[theme~="alfons-dialog"] footer vaadin-button:not(:last-child) {
+    /*noinspection CssUnresolvedCustomProperty*/
+    margin-right: var(--lumo-space-xs);
+}
+
+[theme~="alfons-dialog"] footer vaadin-button:last-child {
+    margin-left: auto;
+}
+
+/* DRAGGABLE and RESIZABLE */
+[theme~="alfons-dialog"] header,
+[theme~="alfons-dialog"] footer {
+    pointer-events: none;
+}
+
+[theme~="alfons-dialog"] header *,
+[theme~="alfons-dialog"] footer * {
+    pointer-events: auto;
+}

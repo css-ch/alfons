@@ -1,0 +1,49 @@
+/*
+ * Alfons - Make Community Management Great Again
+ * Copyright (C) Marcus Fihlon and the individual contributors to Alfons.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+:host([theme~="komunumo-dialog"]) [part="overlay"] {
+    overflow: hidden;
+}
+
+:host([theme~="komunumo-dialog"]) [part="content"] {
+    padding: 0;
+}
+
+:host([theme~="komunumo-dialog"][theme~="dock"]) {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+:host([theme~="komunumo-dialog"][theme~="dock"]) [part="overlay"] {
+    bottom: 0;
+    height: auto !important;
+    left: auto !important;
+    position: absolute;
+    right: 0;
+    top: auto !important;
+}
+
+:host([theme~="komunumo-dialog"][theme~="fullscreen"]) [part="overlay"] {
+    bottom: 0;
+    left: 0 !important;
+    position: absolute;
+    right: 0;
+    top: 0 !important;
+}
