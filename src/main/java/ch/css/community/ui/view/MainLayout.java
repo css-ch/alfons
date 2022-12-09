@@ -3,7 +3,6 @@ package ch.css.community.ui.view;
 
 import ch.css.community.alfons.data.db.enums.UserTheme;
 import ch.css.community.components.appnav.AppNav;
-import ch.css.community.components.appnav.AppNavItem;
 import ch.css.community.security.AuthenticatedUser;
 import ch.css.community.ui.view.about.AboutView;
 import ch.css.community.ui.view.conference.ConferencesView;
@@ -24,9 +23,11 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -36,9 +37,12 @@ public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
     private final AuthenticatedUser authenticatedUser;
+    private final AccessAnnotationChecker accessChecker;
 
-    public MainLayout(@NotNull final AuthenticatedUser authenticatedUser) {
+    public MainLayout(@NotNull final AuthenticatedUser authenticatedUser,
+                      @NotNull final AccessAnnotationChecker accessChecker) {
         this.authenticatedUser = authenticatedUser;
+        this.accessChecker = accessChecker;
 
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
@@ -137,9 +141,16 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
-        nav.addItem(new AppNavItem("Conferences", ConferencesView.class, "la la-university"));
-        nav.addItem(new AppNavItem("Settings", SettingsView.class, "la la-cog"));
-        nav.addItem(new AppNavItem("About", AboutView.class, "la la-info-circle"));
+        final var views = new ArrayList<MainMenuItem>();
+        views.add(new MainMenuItem("Conferences", ConferencesView.class, "la la-university"));
+        views.add(new MainMenuItem("Settings", SettingsView.class, "la la-cog"));
+        views.add(new MainMenuItem("About", AboutView.class, "la la-info-circle"));
+
+        views.forEach(mainMenuItem -> {
+            if (accessChecker.hasAccess(mainMenuItem.view())) {
+                nav.addItem(mainMenuItem.toAppNavItem());
+            }
+        });
 
         return nav;
     }
