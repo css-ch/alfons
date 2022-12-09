@@ -1,6 +1,6 @@
-package ch.css.community.views.about;
+package ch.css.community.ui.view.about;
 
-import ch.css.community.views.MainLayout;
+import ch.css.community.ui.view.MainLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;

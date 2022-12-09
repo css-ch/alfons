@@ -19,8 +19,8 @@
 package ch.css.community.security;
 
 import ch.css.community.data.service.DatabaseService;
-import ch.css.community.views.login.LoginView;
-import com.vaadin.flow.spring.security.VaadinWebSecurityConfigurerAdapter;
+import ch.css.community.ui.view.login.LoginView;
+import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

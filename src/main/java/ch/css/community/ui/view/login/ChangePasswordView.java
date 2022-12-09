@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ch.css.community.views.login;
+package ch.css.community.ui.view.login;
 
 import ch.css.community.security.AuthenticatedUser;
 import ch.css.community.security.SecurityConfiguration;

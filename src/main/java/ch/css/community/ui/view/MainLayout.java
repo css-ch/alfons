@@ -3,7 +3,9 @@ package ch.css.community.views;
 
 import ch.css.community.components.appnav.AppNav;
 import ch.css.community.components.appnav.AppNavItem;
-import ch.css.community.views.about.AboutView;
+import ch.css.community.ui.view.about.AboutView;
+import ch.css.community.ui.view.conference.ConferencesView;
+import ch.css.community.ui.view.settings.SettingsView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Footer;

@@ -18,7 +18,7 @@
 
 package ch.css.community.security;
 
-import ch.css.community.views.login.ChangePasswordView;
+import ch.css.community.ui.view.login.ChangePasswordView;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;

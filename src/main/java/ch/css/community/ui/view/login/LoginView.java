@@ -16,12 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ch.css.community.views.login;
+package ch.css.community.ui.view.login;
 
 import ch.css.community.security.AuthenticatedUser;
 import ch.css.community.security.LoginAttemptService;
 import ch.css.community.security.SecurityService;
-import ch.css.community.views.about.AboutView;
+import ch.css.community.ui.view.about.AboutView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
