@@ -54,6 +54,7 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
+        nav.addItem(new AppNavItem("Conferences", ConferencesView.class, "la la-university"));
         nav.addItem(new AppNavItem("Settings", SettingsView.class, "la la-cog"));
         nav.addItem(new AppNavItem("About", AboutView.class, "la la-info-circle"));
 
