@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-public class DatabaseService implements ConfigurationGetter, ConfigurationService, DSLContextGetter,
+public class DatabaseService implements ConferenceService, ConfigurationGetter, ConfigurationService, DSLContextGetter,
         MailSenderGetter, MailService, MailTemplateService,
         UserService {
 
