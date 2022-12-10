@@ -45,7 +45,7 @@ interface ConferenceService extends DSLContextGetter {
         return dsl().select(CONFERENCE.asterisk())
                 .from(CONFERENCE)
                 .where(filterValue == null ? DSL.noCondition() : CONFERENCE.NAME.like(filterValue))
-                .orderBy(CONFERENCE.NAME)
+                .orderBy(CONFERENCE.BEGIN_DATE.desc().nullsFirst(), CONFERENCE.NAME)
                 .offset(offset)
                 .limit(limit)
                 .fetchInto(Conference.class)
