@@ -19,13 +19,18 @@
 package ch.css.community.ui.view.about;
 
 import ch.css.community.ui.view.MainLayout;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.security.PermitAll;
 
@@ -33,17 +38,21 @@ import javax.annotation.security.PermitAll;
 @Route(value = "about", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @PermitAll
+@CssImport(value = "./themes/alfons/views/about-view.css")
 public class AboutView extends VerticalLayout {
 
-    public AboutView() {
+    public AboutView(final AboutViewVersionController versionController) {
+        addClassNames("about-view");
         setSpacing(false);
 
         final var img = new Image("/images/alfons.png", "Alfons");
         img.setWidth("200px");
         add(img);
 
-        add(new H2("Alfons v1.0-SNAPSHOT"));
+        add(new H2("Alfons v" + versionController.getVersion()));
+        add(new H3("Make Community Management Great Again"));
         add(new Paragraph("Made with Vaadin Flow, jOOQ, Peace, and Love 🥰"));
+        add(new Paragraph(new Anchor("https://www.gnu.org/licenses/agpl-3.0.en.html", "GNU Affero General Public License")));
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -51,4 +60,14 @@ public class AboutView extends VerticalLayout {
         getStyle().set("text-align", "center");
     }
 
+    @Controller
+    static class AboutViewVersionController {
+
+        @Value("${alfons.version}")
+        private String version = "UNKNOWN";
+
+        String getVersion() {
+            return version;
+        }
+    }
 }
