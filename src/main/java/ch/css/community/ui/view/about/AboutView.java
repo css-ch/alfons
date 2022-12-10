@@ -20,7 +20,7 @@ public class AboutView extends VerticalLayout {
     public AboutView() {
         setSpacing(false);
 
-        Image img = new Image("/images/alfons.png", "Alfons");
+        final var img = new Image("/images/alfons.png", "Alfons");
         img.setWidth("200px");
         add(img);
 

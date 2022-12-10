@@ -125,19 +125,17 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
-        H1 appName = new H1("Alfons");
+        final var appName = new H1("Alfons");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
-        Header header = new Header(appName);
-
-        Scroller scroller = new Scroller(createNavigation());
-
+        final var header = new Header(appName);
+        final var scroller = new Scroller(createNavigation());
         addToDrawer(header, scroller, createFooter());
     }
 
     private AppNav createNavigation() {
         // AppNav is not yet an official component.
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
-        AppNav nav = new AppNav();
+        final var nav = new AppNav();
 
         final var views = new ArrayList<MainMenuItem>();
         views.add(new MainMenuItem("Conferences", ConferencesView.class, "la la-university"));
@@ -164,7 +162,7 @@ public class MainLayout extends AppLayout {
     }
 
     private String getCurrentPageTitle() {
-        PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
+        final var title = getContent().getClass().getAnnotation(PageTitle.class);
         return title == null ? "" : title.value();
     }
 }
