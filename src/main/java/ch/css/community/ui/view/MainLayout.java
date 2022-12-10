@@ -12,6 +12,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
@@ -33,6 +34,7 @@ import java.util.Locale;
 /**
  * The main view is a top-level placeholder for other views.
  */
+@CssImport(value = "./themes/alfons/main-layout.css")
 public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
@@ -52,23 +54,20 @@ public class MainLayout extends AppLayout {
     }
 
     private void addHeaderContent() {
-        DrawerToggle toggle = new DrawerToggle();
+        final var layout = new HorizontalLayout();
+        layout.setId("header");
+        layout.setWidthFull();
+        layout.setSpacing(false);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        final var toggle = new DrawerToggle();
         toggle.getElement().setAttribute("aria-label", "Menu toggle");
-
+        layout.add(toggle);
         viewTitle = new H2();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
+        layout.add(viewTitle);
+        layout.add(createAvatarMenu());
 
-        if (authenticatedUser.get().isPresent()) {
-            final var avatarMenu = createAvatarMenu();
-            final var avatarMenuContainer = new HorizontalLayout();
-            avatarMenuContainer.add(avatarMenu);
-            avatarMenuContainer.setSizeFull();
-            avatarMenuContainer.setAlignItems(FlexComponent.Alignment.END);
-            avatarMenuContainer.setAlignSelf(FlexComponent.Alignment.END, avatarMenu);
-            addToNavbar(true, toggle, viewTitle, avatarMenuContainer);
-        } else {
-            addToNavbar(true, toggle, viewTitle);
-        }
+        addToNavbar(true, toggle, layout);
     }
 
     private MenuBar createAvatarMenu() {

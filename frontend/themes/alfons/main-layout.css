@@ -55,3 +55,9 @@ vaadin-scroller[slot="drawer"][overflow~="bottom"] {
 [slot="drawer"]:is(header, footer):is(:empty) {
   display: none;
 }
+
+#header vaadin-menu-bar {
+    margin-left: auto;
+    margin-right: var(--lumo-space-m);
+    width: auto;
+}
