@@ -45,7 +45,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamRegistration;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,6 +52,7 @@ import javax.annotation.security.RolesAllowed;
 import java.io.ByteArrayInputStream;
 import java.io.Serial;
 import java.io.StringWriter;
+import java.time.LocalDate;
 import java.util.List;
 
 import static ch.css.community.util.FormatterUtil.formatDate;
@@ -114,8 +114,11 @@ public final class ConferencesView extends ResizableView implements HasUrlParame
         grid.setSelectionMode(Grid.SelectionMode.NONE);
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_ROW_STRIPES);
 
+        final var today = LocalDate.now();
         grid.addColumn(LitRenderer.<Conference>of(
-                "<a style=\"font-weight: bold;\" href=\"${item.website}\" target=\"_blank\">${item.name}</a>")
+                "<a style=\"font-weight: ${item.fontWeight};\" href=\"${item.website}\" target=\"_blank\">${item.name}</a>")
+                .withProperty("fontWeight", (conference) ->
+                        conference.beginDate() != null && conference.beginDate().isBefore(today) ? "normal" : "bold")
                 .withProperty("name", Conference::name)
                 .withProperty("website", Conference::website))
                 .setHeader("Name").setAutoWidth(true).setFlexGrow(1);
