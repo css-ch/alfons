@@ -29,9 +29,10 @@ import java.util.Optional;
 /**
  * A navigation menu with support for hierarchical and flat menus.
  * <p>
- * Items can be added using {@link #addItem(AppNavItem)} and hierarchy can be
+ * Items can be added using {@link #addItem(AppNavItem...)} and hierarchy can be
  * created by adding {@link AppNavItem} instances to other {@link AppNavItem}
  * instances.
+ * </p>
  */
 @JsModule("@vaadin-component-factory/vcf-nav")
 @Tag("vcf-nav")
@@ -49,7 +50,7 @@ public class AppNav extends Component implements HasSize, HasStyle {
      * @param label
      *            the label to use
      */
-    public AppNav(String label) {
+    public AppNav(final String label) {
         setLabel(label);
     }
 
@@ -60,7 +61,7 @@ public class AppNav extends Component implements HasSize, HasStyle {
      *            the menu item(s) to add
      * @return the menu for chaining
      */
-    public AppNav addItem(AppNavItem... appNavItems) {
+    public AppNav addItem(final AppNavItem... appNavItems) {
         for (AppNavItem appNavItem : appNavItems) {
             getElement().appendChild(appNavItem.getElement());
         }
@@ -77,7 +78,7 @@ public class AppNav extends Component implements HasSize, HasStyle {
      *            the menu item to remove
      * @return the menu for chaining
      */
-    public AppNav removeItem(AppNavItem appNavItem) {
+    public AppNav removeItem(final AppNavItem appNavItem) {
         Optional<Component> parent = appNavItem.getParent();
         if (parent.isPresent() && parent.get() == this) {
             getElement().removeChild(appNavItem.getElement());
@@ -115,7 +116,7 @@ public class AppNav extends Component implements HasSize, HasStyle {
      *            the label to set
      * @return this instance for chaining
      */
-    public AppNav setLabel(String label) {
+    public AppNav setLabel(final String label) {
         getLabelElement().setText(label);
         return this;
     }
@@ -155,7 +156,7 @@ public class AppNav extends Component implements HasSize, HasStyle {
      *            otherwise
      * @return this instance for chaining
      */
-    public AppNav setCollapsible(boolean collapsible) {
+    public AppNav setCollapsible(final boolean collapsible) {
         getElement().setAttribute("collapsible", "");
         return this;
     }
