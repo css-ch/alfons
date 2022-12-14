@@ -22,6 +22,7 @@ import com.vaadin.componentfactory.EnhancedDatePicker;
 import com.vaadin.flow.component.UI;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
 import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -29,6 +30,9 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 class DatePickerI18N extends EnhancedDatePicker.DatePickerI18n {
+
+    @Serial
+    private static final long serialVersionUID = 9123662826442023086L;
 
     DatePickerI18N() {
         this(UI.getCurrent().getSession().getBrowser().getLocale());

@@ -24,6 +24,8 @@ import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 
+import java.io.Serial;
+
 /**
  * A navigation menu with support for hierarchical and flat menus.
  * <p>
@@ -35,6 +37,9 @@ import com.vaadin.flow.component.dependency.JsModule;
 @JsModule("@vaadin-component-factory/vcf-nav")
 @Tag("vcf-nav")
 public class AppNav extends Component implements HasSize, HasStyle {
+
+    @Serial
+    private static final long serialVersionUID = -1887902015133627331L;
 
     /**
      * Creates a new menu without any label.

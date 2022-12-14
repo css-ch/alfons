@@ -20,10 +20,14 @@ package ch.css.community.alfons.data.entity;
 
 import ch.css.community.alfons.data.db.tables.records.UserRecord;
 
+import java.io.Serial;
 import java.util.HashSet;
 import java.util.Set;
 
 public class User extends UserRecord {
+
+    @Serial
+    private static final long serialVersionUID = -3933831578443623455L;
 
     /**
      * Get the full name (first and last) of the member.

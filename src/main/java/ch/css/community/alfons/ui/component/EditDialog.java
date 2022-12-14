@@ -35,7 +35,12 @@ import org.jooq.DSLContext;
 import org.jooq.UpdatableRecord;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.io.Serial;
+
 public abstract class EditDialog<R extends UpdatableRecord<?>> extends EnhancedDialog {
+
+    @Serial
+    private static final long serialVersionUID = 3330801130163387090L;
 
     private final Binder<R> binder;
     private final FormLayout formLayout;

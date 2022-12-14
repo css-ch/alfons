@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.security.PermitAll;
+import java.io.Serial;
 
 @PageTitle("About")
 @Route(value = "about", layout = MainLayout.class)
@@ -40,6 +41,9 @@ import javax.annotation.security.PermitAll;
 @PermitAll
 @CssImport(value = "./themes/alfons/views/about-view.css")
 public class AboutView extends VerticalLayout {
+
+    @Serial
+    private static final long serialVersionUID = -1822311280501874947L;
 
     public AboutView(final AboutViewVersionController versionController) {
         addClassNames("about-view");

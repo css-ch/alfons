@@ -25,6 +25,8 @@ import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.Serial;
+
 /**
  * The entry point of the Spring Boot application.
  *
@@ -32,15 +34,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * and some desktop browsers.
  *
  */
+@SuppressWarnings("checkstyle:FinalClass") // Classes annotated with '@Configuration' could be implicitly subclassed and must not be final
 @SpringBootApplication
 @Theme(value = "alfons")
-@PWA(name = "Alfons", shortName = "Alfons", offlineResources = {})
+@PWA(name = "Alfons", shortName = "Alfons")
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 @NpmPackage(value = "@vaadin-component-factory/vcf-nav", version = "1.0.6")
 public class Application implements AppShellConfigurator {
 
-    public static void main(String[] args) {
+    @Serial
+    private static final long serialVersionUID = 8220640834414263606L;
+
+    public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+
+    private Application() {
+        throw new IllegalStateException("Application class");
     }
 
 }

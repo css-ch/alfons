@@ -28,6 +28,7 @@ import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.Router;
 import com.vaadin.flow.server.VaadinService;
 
+import java.io.Serial;
 import java.util.Optional;
 
 /**
@@ -39,7 +40,10 @@ import java.util.Optional;
 @SuppressWarnings("UnusedReturnValue") // fluent API
 @JsModule("@vaadin-component-factory/vcf-nav")
 @Tag("vcf-nav-item")
-public class AppNavItem extends Component {
+public final class AppNavItem extends Component {
+
+    @Serial
+    private static final long serialVersionUID = -5625592942442836490L;
 
     /**
      * Creates a new menu item using the given label and icon that links to the
@@ -105,7 +109,7 @@ public class AppNavItem extends Component {
      * @return this instance for chaining
      */
     public AppNavItem setPath(final Class<? extends Component> view) {
-        String url = RouteConfiguration.forRegistry(getRouter().getRegistry()).getUrl(view);
+        final var url = RouteConfiguration.forRegistry(getRouter().getRegistry()).getUrl(view);
         setPath(url);
         return this;
     }

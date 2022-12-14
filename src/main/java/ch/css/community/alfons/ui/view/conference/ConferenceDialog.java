@@ -27,9 +27,14 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.StringLengthValidator;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+
 import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
 
 public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
+
+    @Serial
+    private static final long serialVersionUID = 8013889745455047755L;
 
     public ConferenceDialog(@NotNull final String title) {
         super(title);

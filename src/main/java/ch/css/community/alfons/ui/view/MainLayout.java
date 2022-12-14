@@ -46,6 +46,7 @@ import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -54,6 +55,9 @@ import java.util.Locale;
  */
 @CssImport(value = "./themes/alfons/main-layout.css")
 public class MainLayout extends AppLayout {
+
+    @Serial
+    private static final long serialVersionUID = -3101364083072426857L;
 
     private H2 viewTitle;
     private final AuthenticatedUser authenticatedUser;

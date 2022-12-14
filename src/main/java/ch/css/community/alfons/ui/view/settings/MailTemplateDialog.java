@@ -33,12 +33,16 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 
 import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
 
 public final class MailTemplateDialog extends EditDialog<MailTemplateRecord> {
+
+    @Serial
+    private static final long serialVersionUID = 5401865514802957026L;
 
     private final List<MailTemplateId> mailTemplateIds;
     private Callback afterOpen;

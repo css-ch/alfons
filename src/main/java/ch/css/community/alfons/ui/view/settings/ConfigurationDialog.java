@@ -29,9 +29,14 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
+
 import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
 
 public final class ConfigurationDialog extends EditDialog<ConfigurationRecord> {
+
+    @Serial
+    private static final long serialVersionUID = 1378894208091559622L;
 
     private final DatabaseService databaseService;
     private Callback afterOpen;

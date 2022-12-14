@@ -41,12 +41,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
+import java.io.Serial;
 import java.io.StringWriter;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @CssImport(value = "./themes/alfons/views/configuration-setting.css")
 public class ConfigurationSetting extends ResizableView {
+
+    @Serial
+    private static final long serialVersionUID = 1746686312530964230L;
 
     private final DatabaseService databaseService;
 
