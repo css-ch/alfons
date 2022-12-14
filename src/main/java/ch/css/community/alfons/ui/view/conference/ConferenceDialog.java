@@ -64,12 +64,14 @@ public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
                 .bind(ConferenceRecord::getName, ConferenceRecord::setName);
 
         binder.forField(beginDate)
-                .withValidator(value -> value == null || endDate.isEmpty() || (value.isBefore(endDate.getValue()) || value.isEqual(endDate.getValue())),
+                .withValidator(value -> value == null || endDate.isEmpty()
+                                || (value.isBefore(endDate.getValue()) || value.isEqual(endDate.getValue())),
                         "The begin date must be before the end date or they must be the same (1-day-conference)")
                 .bind(ConferenceRecord::getBeginDate, ConferenceRecord::setBeginDate);
 
         binder.forField(endDate)
-                .withValidator(value -> value == null || beginDate.isEmpty() || (value.isEqual(beginDate.getValue()) || value.isAfter(beginDate.getValue())),
+                .withValidator(value -> value == null || beginDate.isEmpty()
+                                || (value.isEqual(beginDate.getValue()) || value.isAfter(beginDate.getValue())),
                         "The end date must be after the begin date or they must be the same (1-day-conference)")
                 .bind(ConferenceRecord::getEndDate, ConferenceRecord::setEndDate);
 

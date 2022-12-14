@@ -54,7 +54,7 @@ import java.util.Locale;
  * The main view is a top-level placeholder for other views.
  */
 @CssImport(value = "./themes/alfons/main-layout.css")
-public class MainLayout extends AppLayout {
+public final class MainLayout extends AppLayout {
 
     @Serial
     private static final long serialVersionUID = -3101364083072426857L;

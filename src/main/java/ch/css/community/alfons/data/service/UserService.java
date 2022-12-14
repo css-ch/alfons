@@ -21,60 +21,16 @@ package ch.css.community.alfons.data.service;
 import ch.css.community.alfons.data.entity.User;
 import ch.css.community.alfons.data.service.getter.DSLContextGetter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jooq.impl.DSL;
 
 import java.util.Optional;
-import java.util.stream.Stream;
-
-import static org.jooq.impl.DSL.concat;
 
 interface UserService extends DSLContextGetter {
-
-    default User newUser() {
-        final var user = dsl().newRecord(ch.css.community.alfons.data.db.tables.User.USER)
-                .into(User.class);
-        user.setFirstName("");
-        user.setLastName("");
-        user.setEmail("");
-        user.setAdmin(false);
-        return user;
-    }
-
-    default Stream<User> findUsers(final int offset, final int limit, @Nullable final String filter) {
-        final var filterValue = filter == null || filter.isBlank() ? null : "%" + filter.trim() + "%";
-        return dsl().select(ch.css.community.alfons.data.db.tables.User.USER.asterisk())
-                .from(ch.css.community.alfons.data.db.tables.User.USER)
-                .where(
-                    filterValue == null ? DSL.noCondition()
-                    : DSL.concat(DSL.concat(ch.css.community.alfons.data.db.tables.User.USER.FIRST_NAME, " "), ch.css.community.alfons.data.db.tables.User.USER.LAST_NAME).like(filterValue)
-                            .or(ch.css.community.alfons.data.db.tables.User.USER.EMAIL.like(filterValue)))
-                .orderBy(ch.css.community.alfons.data.db.tables.User.USER.FIRST_NAME, ch.css.community.alfons.data.db.tables.User.USER.LAST_NAME)
-                .offset(offset)
-                .limit(limit)
-                .fetchInto(User.class)
-                .stream();
-    }
-
-    default Optional<User> getUser(@NotNull final Long id) {
-        return dsl().selectFrom(ch.css.community.alfons.data.db.tables.User.USER)
-                .where(ch.css.community.alfons.data.db.tables.User.USER.ID.eq(id))
-                .fetchOptionalInto(User.class);
-    }
 
     default Optional<User> getUserByEmail(@NotNull final String email) {
         return dsl().selectFrom(ch.css.community.alfons.data.db.tables.User.USER)
                 .where(ch.css.community.alfons.data.db.tables.User.USER.EMAIL.eq(email))
                 .limit(1)
                 .fetchOptionalInto(User.class);
-    }
-
-    default Stream<User> getAllAdmins() {
-        return dsl().selectFrom(ch.css.community.alfons.data.db.tables.User.USER)
-                .where(ch.css.community.alfons.data.db.tables.User.USER.ADMIN.isTrue())
-                .orderBy(ch.css.community.alfons.data.db.tables.User.USER.FIRST_NAME, ch.css.community.alfons.data.db.tables.User.USER.LAST_NAME)
-                .fetchInto(User.class)
-                .stream();
     }
 
 }
