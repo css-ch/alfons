@@ -22,12 +22,12 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.internal.StateTree;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.Router;
 import com.vaadin.flow.server.VaadinService;
+
 import java.util.Optional;
 
 /**
@@ -36,97 +36,10 @@ import java.util.Optional;
  * Can contain a label and/or an icon and links to a given {@code path}.
  * </p>
  */
+@SuppressWarnings("UnusedReturnValue") // fluent API
 @JsModule("@vaadin-component-factory/vcf-nav")
 @Tag("vcf-nav-item")
 public class AppNavItem extends Component {
-
-    /**
-     * Creates a menu item which does not link to any view but only shows the given
-     * label.
-     *
-     * @param label
-     *            the label for the item
-     */
-    public AppNavItem(final String label) {
-        setLabel(label);
-    }
-
-    /**
-     * Creates a new menu item using the given label that links to the given path.
-     *
-     * @param label
-     *            the label for the item
-     * @param path
-     *            the path to link to
-     */
-    public AppNavItem(final String label, final String path) {
-        setPath(path);
-        setLabel(label);
-    }
-
-    /**
-     * Creates a new menu item using the given label that links to the given view.
-     *
-     * @param label
-     *            the label for the item
-     * @param view
-     *            the view to link to
-     */
-    public AppNavItem(final String label, final Class<? extends Component> view) {
-        setPath(view);
-        setLabel(label);
-    }
-
-    /**
-     * Creates a new menu item using the given label and icon that links to the
-     * given path.
-     *
-     * @param label
-     *            the label for the item
-     * @param path
-     *            the path to link to
-     * @param icon
-     *            the icon for the item
-     */
-    public AppNavItem(final String label, final String path, final Icon icon) {
-        setPath(path);
-        setLabel(label);
-        setIcon(icon);
-    }
-
-    /**
-     * Creates a new menu item using the given label that links to the given view.
-     *
-     * @param label
-     *            the label for the item
-     * @param view
-     *            the view to link to
-     * @param icon
-     *            the icon for the item
-     */
-    public AppNavItem(final String label, final Class<? extends Component> view, final Icon icon) {
-        setPath(view);
-        setLabel(label);
-        setIcon(icon);
-    }
-
-    /**
-     * Creates a new menu item using the given label and icon that links to the
-     * given path.
-     *
-     * @param label
-     *            the label for the item
-     * @param path
-     *            the path to link to
-     * @param iconClass
-     *            the CSS class to use for showing the icon
-     */
-    public AppNavItem(final String label, final String path, final String iconClass) {
-        setPath(path);
-        setLabel(label);
-
-        setIconClass(iconClass);
-    }
 
     /**
      * Creates a new menu item using the given label and icon that links to the
@@ -144,59 +57,6 @@ public class AppNavItem extends Component {
         setLabel(label);
 
         setIconClass(iconClass);
-    }
-
-    /**
-     * Adds menu item(s) inside this item, creating a hierarchy.
-     *
-     * @param appNavItems
-     *            the menu item(s) to add
-     * @return this item for chaining
-     */
-    public AppNavItem addItem(final AppNavItem... appNavItems) {
-        for (AppNavItem appNavItem : appNavItems) {
-            appNavItem.getElement().setAttribute("slot", "children");
-            getElement().appendChild(appNavItem.getElement());
-        }
-
-        return this;
-    }
-
-    /**
-     * Removes the given menu item from this item.
-     *
-     * If the given menu item is not a child of this menu item, does nothing.
-     *
-     * @param appNavItem
-     *            the menu item to remove
-     * @return this item for chaining
-     */
-    public AppNavItem removeItem(final AppNavItem appNavItem) {
-        Optional<Component> parent = appNavItem.getParent();
-        if (parent.isPresent() && parent.get() == this) {
-            getElement().removeChild(appNavItem.getElement());
-        }
-
-        return this;
-    }
-
-    /**
-     * Removes all menu items from this item.
-     *
-     * @return this item for chaining
-     */
-    public AppNavItem removeAllItems() {
-        getElement().removeAllChildren();
-        return this;
-    }
-
-    /**
-     * Gets the label for the item.
-     *
-     * @return the label or null if no label has been set
-     */
-    public String getLabel() {
-        return getExistingLabelElement().map(Element::getText).orElse(null);
     }
 
     /**
@@ -266,6 +126,11 @@ public class AppNavItem extends Component {
         return router;
     }
 
+    /**
+     * Gets the path this item links to.
+     *
+     * @return the path to link to
+     */
     public String getPath() {
         return getElement().getAttribute("path");
     }
@@ -315,20 +180,4 @@ public class AppNavItem extends Component {
         setIcon(icon);
         return this;
     }
-
-    /**
-     * Sets the expanded status of the item.
-     *
-     * @param value
-     *            true to expand the item, false to collapse it
-     */
-    public AppNavItem setExpanded(final boolean value) {
-        if (value) {
-            getElement().setAttribute("expanded", "");
-        } else {
-            getElement().removeAttribute("expanded");
-        }
-        return this;
-    }
-
 }
