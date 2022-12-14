@@ -48,9 +48,9 @@ public interface MailService extends ConfigurationGetter, DSLContextGetter, Mail
                                     @Nullable final Map<String, String> variables) {
         String returnValue = text;
         if (variables != null) {
-            for (final String key : variables.keySet()) {
-                final var value = Matcher.quoteReplacement(variables.get(key));
-                final var regex = Pattern.quote("${%s}".formatted(key));
+            for (final var entry : variables.entrySet()) {
+                final var value = Matcher.quoteReplacement(entry.getValue());
+                final var regex = Pattern.quote("${%s}".formatted(entry.getKey()));
                 returnValue = returnValue.replaceAll(regex, value);
             }
         }

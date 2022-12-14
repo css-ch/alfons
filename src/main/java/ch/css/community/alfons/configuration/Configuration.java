@@ -22,14 +22,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-@SuppressWarnings("ClassCanBeRecord")
 public final class Configuration {
 
     @SuppressWarnings("PMD.AvoidFieldNameMatchingTypeName")
     private final Map<String, String> configuration;
 
     public Configuration(@NotNull final Map<String, String> configuration) {
-        this.configuration = configuration;
+        this.configuration = Map.copyOf(configuration);
     }
 
     public String getWebsiteBaseUrl() {

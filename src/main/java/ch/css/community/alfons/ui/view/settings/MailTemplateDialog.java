@@ -50,7 +50,7 @@ public final class MailTemplateDialog extends EditDialog<MailTemplateRecord> {
     public MailTemplateDialog(@NotNull final String title,
                               @NotNull final List<MailTemplateId> mailTemplateIds) {
         super(title);
-        this.mailTemplateIds = mailTemplateIds;
+        this.mailTemplateIds = List.copyOf(mailTemplateIds);
     }
 
     @Override

@@ -21,6 +21,7 @@ package ch.css.community.alfons.security;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,7 @@ public final class LoginAttemptService {
         super();
         attemptsCache = CacheBuilder.newBuilder().
                 expireAfterWrite(1, TimeUnit.DAYS).build(new CacheLoader<>() {
+                    @SuppressFBWarnings("NP_NONNULL_RETURN_VIOLATION") // always returns hard coded value 0
                     public @NotNull Integer load(@NotNull final String ip) {
                         return 0;
                     }
