@@ -34,7 +34,7 @@ import java.io.Serial;
  * and some desktop browsers.
  *
  */
-@SuppressWarnings("checkstyle:FinalClass") // Classes annotated with '@Configuration' could be implicitly subclassed and must not be final
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 @SpringBootApplication
 @Theme(value = "alfons")
 @PWA(name = "Alfons", shortName = "Alfons")
@@ -47,10 +47,6 @@ public class Application implements AppShellConfigurator {
 
     public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);
-    }
-
-    private Application() {
-        throw new IllegalStateException("Application class");
     }
 
 }
