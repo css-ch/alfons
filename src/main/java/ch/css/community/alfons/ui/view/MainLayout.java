@@ -22,6 +22,7 @@ package ch.css.community.alfons.ui.view;
 import ch.css.community.alfons.data.db.enums.UserTheme;
 import ch.css.community.alfons.ui.view.about.AboutView;
 import ch.css.community.alfons.ui.view.conference.ConferencesView;
+import ch.css.community.alfons.ui.view.registration.RegistrationsView;
 import ch.css.community.alfons.ui.view.settings.SettingsView;
 import ch.css.community.alfons.util.GravatarUtil;
 import ch.css.community.alfons.components.appnav.AppNav;
@@ -160,6 +161,7 @@ public final class MainLayout extends AppLayout {
         final var nav = new AppNav();
 
         final var views = new ArrayList<MainMenuItem>();
+        views.add(new MainMenuItem("Registrations", RegistrationsView.class, "la la-users"));
         views.add(new MainMenuItem("Conferences", ConferencesView.class, "la la-university"));
         views.add(new MainMenuItem("Settings", SettingsView.class, "la la-cog"));
         views.add(new MainMenuItem("About", AboutView.class, "la la-info-circle"));

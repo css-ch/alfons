@@ -23,14 +23,24 @@ import ch.css.community.alfons.data.service.getter.DSLContextGetter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import static ch.css.community.alfons.data.db.tables.User.USER;
 
 interface UserService extends DSLContextGetter {
 
     default Optional<User> getUserByEmail(@NotNull final String email) {
-        return dsl().selectFrom(ch.css.community.alfons.data.db.tables.User.USER)
-                .where(ch.css.community.alfons.data.db.tables.User.USER.EMAIL.eq(email))
+        return dsl().selectFrom(USER)
+                .where(USER.EMAIL.eq(email))
                 .limit(1)
                 .fetchOptionalInto(User.class);
+    }
+
+    default Stream<User> getAllUsers() {
+        return dsl().selectFrom(USER)
+                .orderBy(USER.FIRST_NAME, USER.LAST_NAME)
+                .fetchInto(User.class)
+                .stream();
     }
 
 }

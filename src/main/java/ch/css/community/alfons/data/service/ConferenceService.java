@@ -18,7 +18,6 @@
 
 package ch.css.community.alfons.data.service;
 
-import ch.css.community.alfons.data.db.tables.Conference;
 import ch.css.community.alfons.data.db.tables.records.ConferenceRecord;
 import ch.css.community.alfons.data.service.getter.DSLContextGetter;
 import org.jetbrains.annotations.NotNull;
@@ -26,13 +25,16 @@ import org.jetbrains.annotations.Nullable;
 import org.jooq.impl.DSL;
 import org.jooq.impl.UpdatableRecordImpl;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static ch.css.community.alfons.data.db.tables.Conference.CONFERENCE;
 
 interface ConferenceService extends DSLContextGetter {
 
     default ConferenceRecord newConference() {
-        final var conference = dsl().newRecord(Conference.CONFERENCE);
+        final var conference = dsl().newRecord(CONFERENCE);
         conference.setName("");
         conference.setWebsite("");
         return conference;
@@ -40,19 +42,27 @@ interface ConferenceService extends DSLContextGetter {
 
     default Stream<ch.css.community.alfons.data.entity.Conference> findConferences(final int offset, final int limit, @Nullable final String filter) {
         final var filterValue = filter == null || filter.isBlank() ? null : "%" + filter.trim() + "%";
-        return dsl().select(Conference.CONFERENCE.asterisk())
-                .from(Conference.CONFERENCE)
-                .where(filterValue == null ? DSL.noCondition() : Conference.CONFERENCE.NAME.like(filterValue))
-                .orderBy(Conference.CONFERENCE.BEGIN_DATE.desc().nullsFirst(), Conference.CONFERENCE.NAME)
+        return dsl().select(CONFERENCE.asterisk())
+                .from(CONFERENCE)
+                .where(filterValue == null ? DSL.noCondition() : CONFERENCE.NAME.like(filterValue))
+                .orderBy(CONFERENCE.BEGIN_DATE.desc().nullsFirst(), CONFERENCE.NAME)
                 .offset(offset)
                 .limit(limit)
                 .fetchInto(ch.css.community.alfons.data.entity.Conference.class)
                 .stream();
     }
 
+    default Stream<ch.css.community.alfons.data.entity.Conference> getFutureConferences() {
+        return dsl().selectFrom(CONFERENCE)
+                .where(CONFERENCE.BEGIN_DATE.greaterThan(LocalDate.now()))
+                .orderBy(CONFERENCE.BEGIN_DATE, CONFERENCE.NAME)
+                .fetchInto(ch.css.community.alfons.data.entity.Conference.class)
+                .stream();
+    }
+
     default Optional<ConferenceRecord> getConferenceRecord(@NotNull final Long id) {
-        return dsl().selectFrom(Conference.CONFERENCE)
-                .where(Conference.CONFERENCE.ID.eq(id))
+        return dsl().selectFrom(CONFERENCE)
+                .where(CONFERENCE.ID.eq(id))
                 .fetchOptional();
     }
 
