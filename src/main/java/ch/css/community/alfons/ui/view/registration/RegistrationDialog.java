@@ -52,15 +52,24 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
         final var role = new ComboBox<RegistrationRole>("Role");
         final var reason = new TextArea("Reason");
 
-        employee.setItems(databaseService.getAllEmployees().toList());
+        final var employees = databaseService.getAllEmployees().toList();
+        final var conferences = databaseService.getFutureConferences().toList();
+
+        employee.setItems(employees);
         employee.setItemLabelGenerator(item -> String.format("%s %s", item.getFirstName(), item.getLastName()));
-        conference.setItems(databaseService.getFutureConferences().toList());
+        conference.setItems(conferences);
         conference.setItemLabelGenerator(Conference::name);
         role.setItems(RegistrationRole.values());
         role.setItemLabelGenerator(item -> item.toString().substring(0, 1).toUpperCase() + item.toString().substring(1));
 
         formLayout.add(employee, conference, role, reason);
 
+        binder.forField(employee).bind(
+                record -> employees.stream().filter(e -> e.getId().equals(record.getEmployeeId())).findFirst().orElse(null),
+                (registrationRecord, item) -> registrationRecord.setEmployeeId(item.getId()));
+        binder.forField(conference).bind(
+                record -> conferences.stream().filter(c -> c.id().equals(record.getConferenceId())).findFirst().orElse(null),
+                (registrationRecord, item) -> registrationRecord.setConferenceId(item.id()));
         binder.forField(role).bind(RegistrationRecord::getRole, RegistrationRecord::setRole);
         binder.forField(reason).bind(RegistrationRecord::getReason, RegistrationRecord::setReason);
     }
