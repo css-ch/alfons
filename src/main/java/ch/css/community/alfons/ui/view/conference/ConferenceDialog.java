@@ -47,8 +47,8 @@ public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
     @Override
     public void createForm(@NotNull final FormLayout formLayout, @NotNull final Binder<ConferenceRecord> binder) {
         final var name = new TextField("Name");
-        final var beginDate = new DatePicker("Valid from");
-        final var endDate = new DatePicker("Valid to");
+        final var beginDate = new DatePicker("Begin date");
+        final var endDate = new DatePicker("End date");
         final var website = new TextField("Website");
         final var ticket = new IntegerField("Ticket");
         final var travel = new IntegerField("Travel");
