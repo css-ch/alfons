@@ -51,12 +51,12 @@ CREATE UNIQUE INDEX `employee_email` ON `employee` (`email`);
 CREATE TABLE `registration` (
     `employee_id` BIGINT NOT NULL,
     `conference_id` BIGINT NOT NULL,
-    `date` DATETIME NULL,
+    `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `role` ENUM('attendee', 'speaker', 'organizer') NOT NULL DEFAULT 'attendee',
     `reason` LONGTEXT NOT NULL,
     `status` ENUM('submitted', 'approved', 'declined', 'withdrawn') NOT NULL DEFAULT 'submitted',
     `status_date` DATETIME NULL,
-    `status_comment` LONGTEXT NOT NULL,
+    `status_comment` LONGTEXT NULL,
 
     PRIMARY KEY (`employee_id`, `conference_id`),
     FOREIGN KEY (`employee_id`) REFERENCES `employee`(`id`),
