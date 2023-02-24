@@ -21,9 +21,13 @@ package ch.css.community.alfons.ui.view.conference;
 import ch.css.community.alfons.data.db.tables.records.ConferenceRecord;
 import ch.css.community.alfons.ui.component.DatePicker;
 import ch.css.community.alfons.ui.component.EditDialog;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.IntegerRangeValidator;
 import com.vaadin.flow.data.validator.StringLengthValidator;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,6 +50,9 @@ public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
         final var beginDate = new DatePicker("Valid from");
         final var endDate = new DatePicker("Valid to");
         final var website = new TextField("Website");
+        final var ticket = new IntegerField("Ticket");
+        final var travel = new IntegerField("Travel");
+        final var accommodation = new IntegerField("Accommodation");
 
         name.setRequiredIndicatorVisible(true);
         name.setValueChangeMode(EAGER);
@@ -55,8 +62,11 @@ public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
                 endDate.setValue(beginDate.getValue());
             }
         });
+        ticket.setPrefixComponent(new Div(new Text("CHF")));
+        travel.setPrefixComponent(new Div(new Text("CHF")));
+        accommodation.setPrefixComponent(new Div(new Text("CHF")));
 
-        formLayout.add(name, beginDate, endDate, website);
+        formLayout.add(name, beginDate, endDate, website, ticket, travel, accommodation);
 
         binder.forField(name)
                 .withValidator(new StringLengthValidator(
@@ -81,5 +91,20 @@ public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
                 .withValidator(new StringLengthValidator(
                         "The website address is too long (max. 255 chars)", 0, 255))
                 .bind(ConferenceRecord::getWebsite, ConferenceRecord::setWebsite);
+
+        binder.forField(ticket)
+                .withValidator(new IntegerRangeValidator(
+                        "Please enter the ticket price for the conference (minimum 0)", 0, Integer.MAX_VALUE))
+                .bind(ConferenceRecord::getTicket, ConferenceRecord::setTicket);
+
+        binder.forField(travel)
+                .withValidator(new IntegerRangeValidator(
+                        "Please enter the travel expenses for the conference (minimum 0)", 0, Integer.MAX_VALUE))
+                .bind(ConferenceRecord::getTravel, ConferenceRecord::setTravel);
+
+        binder.forField(accommodation)
+                .withValidator(new IntegerRangeValidator(
+                        "Please enter the accommodation costs for the conference (minimum 0)", 0, Integer.MAX_VALUE))
+                .bind(ConferenceRecord::getAccommodation, ConferenceRecord::setAccommodation);
     }
 }

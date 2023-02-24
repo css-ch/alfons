@@ -4,7 +4,10 @@ CREATE TABLE `conference` (
     `name` VARCHAR(255) NOT NULL,
     `begin_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
-    `website` VARCHAR(255) NOT NULL DEFAULT '',
+    `website` VARCHAR(255) NOT NULL,
+    `ticket` INT NOT NULL,
+    `travel` INT NOT NULL,
+    `accommodation` INT NOT NULL,
 
     PRIMARY KEY (`id`)
 );
@@ -44,3 +47,21 @@ CREATE TABLE `user` (
 
 CREATE INDEX `user_names` ON `user` (`first_name`, `last_name`);
 CREATE UNIQUE INDEX `user_email` ON `user` (`email`);
+
+CREATE TABLE `registration` (
+    `user_id` BIGINT NOT NULL,
+    `conference_id` BIGINT NOT NULL,
+    `date` DATETIME NULL,
+    `role` ENUM('attendee', 'speaker', 'organizer') NOT NULL DEFAULT 'attendee',
+    `reason` LONGTEXT NOT NULL,
+    `status` ENUM('submitted', 'approved', 'declined', 'withdrawn') NOT NULL DEFAULT 'submitted',
+    `status_date` DATETIME NULL,
+    `status_comment` LONGTEXT NOT NULL,
+
+    PRIMARY KEY (`user_id`, `conference_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user`(`id`),
+    FOREIGN KEY (`conference_id`) REFERENCES `conference`(`id`)
+);
+
+CREATE INDEX `registration_date` ON `registration` (`date`);
+CREATE INDEX `registration_status` ON `registration` (`status`);

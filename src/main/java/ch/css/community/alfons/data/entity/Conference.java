@@ -20,4 +20,5 @@ package ch.css.community.alfons.data.entity;
 
 import java.time.LocalDate;
 
-public record Conference(Long id, String name, LocalDate beginDate, LocalDate endDate, String website) { }
+public record Conference(Long id, String name, LocalDate beginDate, LocalDate endDate, String website,
+                         Integer ticket, Integer travel, Integer accommodation) { }
