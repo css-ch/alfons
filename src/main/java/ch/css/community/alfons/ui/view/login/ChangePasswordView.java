@@ -20,7 +20,7 @@ package ch.css.community.alfons.ui.view.login;
 
 import ch.css.community.alfons.security.SecurityConfiguration;
 import ch.css.community.alfons.security.SecurityService;
-import ch.css.community.alfons.security.AuthenticatedUser;
+import ch.css.community.alfons.security.AuthenticatedEmployee;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -47,7 +47,7 @@ public class ChangePasswordView extends VerticalLayout {
     @Serial
     private static final long serialVersionUID = -1548708006113468096L;
 
-    public ChangePasswordView(@NotNull final AuthenticatedUser authenticatedUser,
+    public ChangePasswordView(@NotNull final AuthenticatedEmployee authenticatedEmployee,
                               @NotNull final SecurityService securityService) {
         final var title = new H2("Change password");
         final var oldPassword = new PasswordField("Old password (or one time password)");
@@ -69,7 +69,7 @@ public class ChangePasswordView extends VerticalLayout {
             } else {
                 try {
                     securityService.changePassword(oldPassword.getValue(), newPassword.getValue());
-                    final var okButton = new Button("OK", clickEvent -> authenticatedUser.logout(SecurityConfiguration.LOGIN_URL));
+                    final var okButton = new Button("OK", clickEvent -> authenticatedEmployee.logout(SecurityConfiguration.LOGIN_URL));
                     okButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
                     final var dialog = new Dialog();
                     dialog.add(
@@ -82,7 +82,7 @@ public class ChangePasswordView extends VerticalLayout {
                     );
                     dialog.setCloseOnEsc(false);
                     dialog.setCloseOnOutsideClick(false);
-                    dialog.addDialogCloseActionListener(closeEvent -> authenticatedUser.logout());
+                    dialog.addDialogCloseActionListener(closeEvent -> authenticatedEmployee.logout());
                     dialog.open();
                 } catch (final AuthenticationException e) {
                     Notification.show(e.getMessage());

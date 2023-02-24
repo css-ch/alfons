@@ -18,7 +18,7 @@
 
 package ch.css.community.alfons.security;
 
-import ch.css.community.alfons.data.entity.User;
+import ch.css.community.alfons.data.entity.Employee;
 import ch.css.community.alfons.data.service.DatabaseService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
@@ -32,11 +32,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public final class AuthenticatedUser {
+public final class AuthenticatedEmployee {
 
     private final DatabaseService databaseService;
 
-    public AuthenticatedUser(@NotNull final DatabaseService databaseService) {
+    public AuthenticatedEmployee(@NotNull final DatabaseService databaseService) {
         this.databaseService = databaseService;
     }
 
@@ -46,8 +46,8 @@ public final class AuthenticatedUser {
                 .filter(authentication -> !(authentication instanceof AnonymousAuthenticationToken));
     }
 
-    public Optional<User> get() {
-        return getAuthentication().flatMap(authentication -> databaseService.getUserByEmail(authentication.getName()));
+    public Optional<Employee> get() {
+        return getAuthentication().flatMap(authentication -> databaseService.getEmployeeByEmail(authentication.getName()));
     }
 
     public void logout() {

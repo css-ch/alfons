@@ -31,7 +31,7 @@ CREATE TABLE `mail_template` (
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `user` (
+CREATE TABLE `employee` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
 
     `first_name` VARCHAR(255) NOT NULL,
@@ -45,11 +45,11 @@ CREATE TABLE `user` (
     PRIMARY KEY (`id`)
 );
 
-CREATE INDEX `user_names` ON `user` (`first_name`, `last_name`);
-CREATE UNIQUE INDEX `user_email` ON `user` (`email`);
+CREATE INDEX `employee_names` ON `employee` (`first_name`, `last_name`);
+CREATE UNIQUE INDEX `employee_email` ON `employee` (`email`);
 
 CREATE TABLE `registration` (
-    `user_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
     `conference_id` BIGINT NOT NULL,
     `date` DATETIME NULL,
     `role` ENUM('attendee', 'speaker', 'organizer') NOT NULL DEFAULT 'attendee',
@@ -58,8 +58,8 @@ CREATE TABLE `registration` (
     `status_date` DATETIME NULL,
     `status_comment` LONGTEXT NOT NULL,
 
-    PRIMARY KEY (`user_id`, `conference_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `user`(`id`),
+    PRIMARY KEY (`employee_id`, `conference_id`),
+    FOREIGN KEY (`employee_id`) REFERENCES `employee`(`id`),
     FOREIGN KEY (`conference_id`) REFERENCES `conference`(`id`)
 );
 

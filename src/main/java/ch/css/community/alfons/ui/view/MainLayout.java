@@ -19,14 +19,14 @@
 package ch.css.community.alfons.ui.view;
 
 
-import ch.css.community.alfons.data.db.enums.UserTheme;
+import ch.css.community.alfons.components.appnav.AppNav;
+import ch.css.community.alfons.data.db.enums.EmployeeTheme;
+import ch.css.community.alfons.security.AuthenticatedEmployee;
 import ch.css.community.alfons.ui.view.about.AboutView;
 import ch.css.community.alfons.ui.view.conference.ConferencesView;
 import ch.css.community.alfons.ui.view.registration.RegistrationsView;
 import ch.css.community.alfons.ui.view.settings.SettingsView;
 import ch.css.community.alfons.util.GravatarUtil;
-import ch.css.community.alfons.components.appnav.AppNav;
-import ch.css.community.alfons.security.AuthenticatedUser;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -61,19 +61,19 @@ public final class MainLayout extends AppLayout {
     private static final long serialVersionUID = -3101364083072426857L;
 
     private H2 viewTitle;
-    private final AuthenticatedUser authenticatedUser;
+    private final AuthenticatedEmployee authenticatedEmployee;
     private final AccessAnnotationChecker accessChecker;
 
-    public MainLayout(@NotNull final AuthenticatedUser authenticatedUser,
+    public MainLayout(@NotNull final AuthenticatedEmployee authenticatedEmployee,
                       @NotNull final AccessAnnotationChecker accessChecker) {
-        this.authenticatedUser = authenticatedUser;
+        this.authenticatedEmployee = authenticatedEmployee;
         this.accessChecker = accessChecker;
 
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
 
-        authenticatedUser.get().ifPresent(user -> UI.getCurrent().getElement().setAttribute("theme", user.getTheme().getLiteral()));
+        authenticatedEmployee.get().ifPresent(employee -> UI.getCurrent().getElement().setAttribute("theme", employee.getTheme().getLiteral()));
     }
 
     private void addHeaderContent() {
@@ -102,31 +102,31 @@ public final class MainLayout extends AppLayout {
         final var darkThemeItem = subMenu.addItem("Dark Theme");
         final var lightThemeItem = subMenu.addItem("Light Theme");
         subMenu.add(new Hr());
-        subMenu.addItem("Logout", e -> authenticatedUser.logout());
+        subMenu.addItem("Logout", e -> authenticatedEmployee.logout());
 
         darkThemeItem.setCheckable(true);
         lightThemeItem.setCheckable(true);
-        authenticatedUser.get().ifPresent(user -> {
-            switch (user.getTheme()) {
+        authenticatedEmployee.get().ifPresent(employee -> {
+            switch (employee.getTheme()) {
                 case dark -> darkThemeItem.setChecked(true);
                 case light -> lightThemeItem.setChecked(true);
-                default -> throw new IllegalStateException("Unexpected value: " + user.getTheme());
+                default -> throw new IllegalStateException("Unexpected value: " + employee.getTheme());
             }
         });
 
         darkThemeItem.addClickListener(clickEvent -> {
-            authenticatedUser.get().ifPresent(user -> {
-                user.setTheme(UserTheme.dark);
-                user.store();
+            authenticatedEmployee.get().ifPresent(employee -> {
+                employee.setTheme(EmployeeTheme.dark);
+                employee.store();
             });
             UI.getCurrent().getElement().setAttribute("theme", "dark");
             lightThemeItem.setChecked(false);
         });
 
         lightThemeItem.addClickListener(clickEvent -> {
-            authenticatedUser.get().ifPresent(user -> {
-                user.setTheme(UserTheme.light);
-                user.store();
+            authenticatedEmployee.get().ifPresent(employee -> {
+                employee.setTheme(EmployeeTheme.light);
+                employee.store();
             });
             UI.getCurrent().getElement().setAttribute("theme", "light");
             darkThemeItem.setChecked(false);
@@ -136,10 +136,10 @@ public final class MainLayout extends AppLayout {
     }
 
     private Avatar createAvatar() {
-        final var user = authenticatedUser.get().orElse(null);
-        if (user != null) {
-            final var avatar = new Avatar(String.format("%s %s", user.getFirstName(), user.getLastName()));
-            avatar.setImage(GravatarUtil.getGravatarAddress(user.getEmail().toLowerCase(Locale.getDefault())));
+        final var employee = authenticatedEmployee.get().orElse(null);
+        if (employee != null) {
+            final var avatar = new Avatar(String.format("%s %s", employee.getFirstName(), employee.getLastName()));
+            avatar.setImage(GravatarUtil.getGravatarAddress(employee.getEmail().toLowerCase(Locale.getDefault())));
             avatar.getStyle().set("cursor", "pointer");
             return avatar;
         } else {

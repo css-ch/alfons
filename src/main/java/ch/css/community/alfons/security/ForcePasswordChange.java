@@ -33,10 +33,10 @@ public final class ForcePasswordChange implements VaadinServiceInitListener {
 
     @Serial
     private static final long serialVersionUID = -8608315239668545500L;
-    private final AuthenticatedUser authenticatedUser;
+    private final AuthenticatedEmployee authenticatedEmployee;
 
-    public ForcePasswordChange(@NotNull final AuthenticatedUser authenticatedUser) {
-        this.authenticatedUser = authenticatedUser;
+    public ForcePasswordChange(@NotNull final AuthenticatedEmployee authenticatedEmployee) {
+        this.authenticatedEmployee = authenticatedEmployee;
     }
 
     @Override
@@ -48,7 +48,7 @@ public final class ForcePasswordChange implements VaadinServiceInitListener {
     }
 
     private void beforeEnter(@NotNull final BeforeEnterEvent event) {
-        if (authenticatedUser.get().isPresent() && authenticatedUser.get().get().getPasswordChange()) {
+        if (authenticatedEmployee.get().isPresent() && authenticatedEmployee.get().get().getPasswordChange()) {
             event.forwardTo(ChangePasswordView.class);
         }
     }

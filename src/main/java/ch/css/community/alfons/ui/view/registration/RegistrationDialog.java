@@ -21,7 +21,7 @@ package ch.css.community.alfons.ui.view.registration;
 import ch.css.community.alfons.data.db.enums.RegistrationRole;
 import ch.css.community.alfons.data.db.tables.records.RegistrationRecord;
 import ch.css.community.alfons.data.entity.Conference;
-import ch.css.community.alfons.data.entity.User;
+import ch.css.community.alfons.data.entity.Employee;
 import ch.css.community.alfons.data.service.DatabaseService;
 import ch.css.community.alfons.ui.component.EditDialog;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -47,19 +47,19 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
 
     @Override
     public void createForm(@NotNull final FormLayout formLayout, @NotNull final Binder<RegistrationRecord> binder) {
-        final var user = new ComboBox<User>("Employee");
+        final var employee = new ComboBox<Employee>("Employee");
         final var conference = new ComboBox<Conference>("Conference");
         final var role = new ComboBox<RegistrationRole>("Role");
         final var reason = new TextArea("Reason");
 
-        user.setItems(databaseService.getAllUsers().toList());
-        user.setItemLabelGenerator(item -> String.format("%s %s", item.getFirstName(), item.getLastName()));
+        employee.setItems(databaseService.getAllEmployees().toList());
+        employee.setItemLabelGenerator(item -> String.format("%s %s", item.getFirstName(), item.getLastName()));
         conference.setItems(databaseService.getFutureConferences().toList());
         conference.setItemLabelGenerator(Conference::name);
         role.setItems(RegistrationRole.values());
         role.setItemLabelGenerator(item -> item.toString().substring(0, 1).toUpperCase() + item.toString().substring(1));
 
-        formLayout.add(user, conference, role, reason);
+        formLayout.add(employee, conference, role, reason);
 
         binder.forField(role).bind(RegistrationRecord::getRole, RegistrationRecord::setRole);
         binder.forField(reason).bind(RegistrationRecord::getReason, RegistrationRecord::setReason);

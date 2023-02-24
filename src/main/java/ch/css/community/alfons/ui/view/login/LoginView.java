@@ -21,7 +21,7 @@ package ch.css.community.alfons.ui.view.login;
 import ch.css.community.alfons.security.LoginAttemptService;
 import ch.css.community.alfons.security.SecurityService;
 import ch.css.community.alfons.ui.view.about.AboutView;
-import ch.css.community.alfons.security.AuthenticatedUser;
+import ch.css.community.alfons.security.AuthenticatedEmployee;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
@@ -42,12 +42,12 @@ public final class LoginView extends LoginOverlay implements BeforeEnterObserver
 
     @Serial
     private static final long serialVersionUID = 3136950494923039756L;
-    private final AuthenticatedUser authenticatedUser;
+    private final AuthenticatedEmployee authenticatedEmployee;
 
-    public LoginView(@NotNull final AuthenticatedUser authenticatedUser,
+    public LoginView(@NotNull final AuthenticatedEmployee authenticatedEmployee,
                      @NotNull final SecurityService securityService,
                      @NotNull final LoginAttemptService loginAttemptService) {
-        this.authenticatedUser = authenticatedUser;
+        this.authenticatedEmployee = authenticatedEmployee;
         setAction("login");
 
         final var i18n = LoginI18n.createDefault();
@@ -96,7 +96,7 @@ public final class LoginView extends LoginOverlay implements BeforeEnterObserver
 
     @Override
     public void beforeEnter(@NotNull final BeforeEnterEvent event) {
-        if (authenticatedUser.get().isPresent()) {
+        if (authenticatedEmployee.get().isPresent()) {
             event.forwardTo(AboutView.class);
         } else {
             setError(event.getLocation().getQueryParameters().getParameters().containsKey("error"));

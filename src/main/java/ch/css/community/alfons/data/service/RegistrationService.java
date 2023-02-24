@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 
 import static ch.css.community.alfons.data.db.tables.Conference.CONFERENCE;
 import static ch.css.community.alfons.data.db.tables.Registration.REGISTRATION;
-import static ch.css.community.alfons.data.db.tables.User.USER;
+import static ch.css.community.alfons.data.db.tables.Employee.EMPLOYEE;
 import static org.jooq.impl.DSL.concat;
 
 interface RegistrationService extends DSLContextGetter {
@@ -43,15 +43,15 @@ interface RegistrationService extends DSLContextGetter {
     default Stream<RegistrationListEntity> findRegistrations(
             final int offset, final int limit, @Nullable final String filter) {
         final var filterValue = filter == null || filter.isBlank() ? null : "%" + filter.trim() + "%";
-        return dsl().select(USER.ID, USER.FIRST_NAME, USER.LAST_NAME,
+        return dsl().select(EMPLOYEE.ID, EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME,
                         CONFERENCE.ID, CONFERENCE.NAME, CONFERENCE.WEBSITE,
                         REGISTRATION.DATE, REGISTRATION.ROLE, REGISTRATION.REASON,
                         REGISTRATION.STATUS, REGISTRATION.STATUS_DATE, REGISTRATION.STATUS_COMMENT)
                 .from(REGISTRATION)
-                .leftJoin(USER).on(REGISTRATION.USER_ID.eq(USER.ID))
+                .leftJoin(EMPLOYEE).on(REGISTRATION.EMPLOYEE_ID.eq(EMPLOYEE.ID))
                 .leftJoin(CONFERENCE).on(REGISTRATION.CONFERENCE_ID.eq(CONFERENCE.ID))
                 .where(filterValue == null ? DSL.noCondition()
-                        : concat(USER.FIRST_NAME, DSL.value(" "), USER.LAST_NAME).like(filterValue)
+                        : concat(EMPLOYEE.FIRST_NAME, DSL.value(" "), EMPLOYEE.LAST_NAME).like(filterValue)
                                 .or(CONFERENCE.NAME.like(filterValue)))
                 .orderBy(REGISTRATION.DATE.desc().nullsFirst())
                 .offset(offset)
@@ -60,13 +60,13 @@ interface RegistrationService extends DSLContextGetter {
                 .stream();
     }
 
-    default Optional<RegistrationRecord> getRegistrationRecord(@NotNull final Long userId, @NotNull final Long conferenceId) {
+    default Optional<RegistrationRecord> getRegistrationRecord(@NotNull final Long employeeId, @NotNull final Long conferenceId) {
         return dsl().selectFrom(REGISTRATION)
-                .where(REGISTRATION.USER_ID.eq(userId).and(REGISTRATION.CONFERENCE_ID.eq(conferenceId)))
+                .where(REGISTRATION.EMPLOYEE_ID.eq(employeeId).and(REGISTRATION.CONFERENCE_ID.eq(conferenceId)))
                 .fetchOptional();
     }
 
-    default void deleteRegistration(final long userId, final long conferenceId) {
-        getRegistrationRecord(userId, conferenceId).ifPresent(UpdatableRecordImpl::delete);
+    default void deleteRegistration(final long employeeId, final long conferenceId) {
+        getRegistrationRecord(employeeId, conferenceId).ifPresent(UpdatableRecordImpl::delete);
     }
 }

@@ -18,13 +18,13 @@
 
 package ch.css.community.alfons.data.entity;
 
-import ch.css.community.alfons.data.db.tables.records.UserRecord;
+import ch.css.community.alfons.data.db.tables.records.EmployeeRecord;
 
 import java.io.Serial;
 import java.util.HashSet;
 import java.util.Set;
 
-public class User extends UserRecord {
+public class Employee extends EmployeeRecord {
 
     @Serial
     private static final long serialVersionUID = -3933831578443623455L;

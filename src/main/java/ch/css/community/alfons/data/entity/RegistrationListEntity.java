@@ -22,7 +22,7 @@ import ch.css.community.alfons.data.db.enums.RegistrationStatus;
 
 import java.time.LocalDateTime;
 
-public record RegistrationListEntity(Long userId, String userFirstName, String userLastName,
+public record RegistrationListEntity(Long employeeId, String employeeFirstName, String employeeLastName,
                                      Long conferenceId, String conferenceName, String conferenceWebsite,
                                      LocalDateTime registrationDate, RegistrationRole registrationRole, String registrationReason,
                                      RegistrationStatus status, LocalDateTime statusDate, String statusComment) { }

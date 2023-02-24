@@ -18,7 +18,7 @@
 
 package ch.css.community.alfons.security;
 
-import ch.css.community.alfons.data.entity.User;
+import ch.css.community.alfons.data.entity.Employee;
 import ch.css.community.alfons.data.service.DatabaseService;
 import ch.css.community.alfons.data.entity.MailTemplateId;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -43,18 +43,18 @@ public final class SecurityService implements UserDetailsService {
 
     private final DatabaseService databaseService;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticatedUser authenticatedUser;
+    private final AuthenticatedEmployee authenticatedEmployee;
     private final LoginAttemptService loginAttemptService;
     private final HttpServletRequest request;
 
     public SecurityService(@NotNull final DatabaseService databaseService,
                            @NotNull final PasswordEncoder passwordEncoder,
-                           @NotNull final AuthenticatedUser authenticatedUser,
+                           @NotNull final AuthenticatedEmployee authenticatedEmployee,
                            @NotNull final LoginAttemptService loginAttemptService,
                            @NotNull final HttpServletRequest request) {
         this.databaseService = databaseService;
         this.passwordEncoder = passwordEncoder;
-        this.authenticatedUser = authenticatedUser;
+        this.authenticatedEmployee = authenticatedEmployee;
         this.loginAttemptService = loginAttemptService;
         this.request = request;
     }
@@ -65,26 +65,26 @@ public final class SecurityService implements UserDetailsService {
             throw new RuntimeException("Too many failed login attempts, IP address blocked for 24 hours!");
         }
 
-        final var optionalUser = databaseService.getUserByEmail(email);
-        if (optionalUser.isEmpty()) {
-            throw new UsernameNotFoundException("No user present with email: " + email);
+        final var optionalEmployee = databaseService.getEmployeeByEmail(email);
+        if (optionalEmployee.isEmpty()) {
+            throw new UsernameNotFoundException("No employee present with email: " + email);
         } else {
-            final var user = optionalUser.get();
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPasswordHash(), getAuthorities(user));
+            final var employee = optionalEmployee.get();
+            return new org.springframework.security.core.userdetails.User(employee.getEmail(), employee.getPasswordHash(), getAuthorities(employee));
         }
     }
 
-    private static List<GrantedAuthority> getAuthorities(@NotNull final User user) {
-        return user.getRoles().stream()
+    private static List<GrantedAuthority> getAuthorities(@NotNull final Employee employee) {
+        return employee.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
                 .collect(Collectors.toList());
 
     }
 
     public void resetPassword(@NotNull final String email) {
-        final var user = databaseService.getUserByEmail(email);
-        if (user.isPresent()) {
-            final var record = user.get();
+        final var employee = databaseService.getEmployeeByEmail(email);
+        if (employee.isPresent()) {
+            final var record = employee.get();
             final var password = RandomStringUtils.randomAscii(32).replaceAll("\\s", "_");
             final var passwordHash = passwordEncoder.encode(password);
             record.setPasswordHash(passwordHash);
@@ -97,7 +97,7 @@ public final class SecurityService implements UserDetailsService {
 
     public void changePassword(@NotNull final String oldPassword,
                                @NotNull final String newPassword) {
-        final var member = authenticatedUser.get()
+        final var member = authenticatedEmployee.get()
                 .orElseThrow(() -> new InsufficientAuthenticationException("Password change denied!"));
         if (passwordEncoder.matches(oldPassword, member.getPasswordHash())) {
             final var newPasswordHash = passwordEncoder.encode(newPassword);

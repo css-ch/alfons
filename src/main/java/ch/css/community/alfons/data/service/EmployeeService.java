@@ -18,28 +18,28 @@
 
 package ch.css.community.alfons.data.service;
 
-import ch.css.community.alfons.data.entity.User;
+import ch.css.community.alfons.data.entity.Employee;
 import ch.css.community.alfons.data.service.getter.DSLContextGetter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static ch.css.community.alfons.data.db.tables.User.USER;
+import static ch.css.community.alfons.data.db.tables.Employee.EMPLOYEE;
 
-interface UserService extends DSLContextGetter {
+interface EmployeeService extends DSLContextGetter {
 
-    default Optional<User> getUserByEmail(@NotNull final String email) {
-        return dsl().selectFrom(USER)
-                .where(USER.EMAIL.eq(email))
+    default Optional<Employee> getEmployeeByEmail(@NotNull final String email) {
+        return dsl().selectFrom(EMPLOYEE)
+                .where(EMPLOYEE.EMAIL.eq(email))
                 .limit(1)
-                .fetchOptionalInto(User.class);
+                .fetchOptionalInto(Employee.class);
     }
 
-    default Stream<User> getAllUsers() {
-        return dsl().selectFrom(USER)
-                .orderBy(USER.FIRST_NAME, USER.LAST_NAME)
-                .fetchInto(User.class)
+    default Stream<Employee> getAllEmployees() {
+        return dsl().selectFrom(EMPLOYEE)
+                .orderBy(EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME)
+                .fetchInto(Employee.class)
                 .stream();
     }
 

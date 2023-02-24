@@ -79,7 +79,7 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
         configureGrid();
         filterField = new FilterField();
         filterField.addValueChangeListener(event -> reloadRegistrations());
-        filterField.setTitle("Filter registrations by conference or user");
+        filterField.setTitle("Filter registrations by conference or employee");
 
         final var newRegistrationButton = new EnhancedButton(new Icon(VaadinIcon.FILE_ADD), clickEvent -> showRegistrationDialog(null));
         newRegistrationButton.setTitle("Add a new registration");
@@ -114,8 +114,8 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_ROW_STRIPES);
 
         grid.addColumn(LitRenderer.<RegistrationListEntity>of("${item.firstName} ${item.lastName}")
-                .withProperty("firstName", RegistrationListEntity::userFirstName)
-                .withProperty("lastName", RegistrationListEntity::userLastName))
+                .withProperty("firstName", RegistrationListEntity::employeeFirstName)
+                .withProperty("lastName", RegistrationListEntity::employeeLastName))
                 .setHeader("Employee").setAutoWidth(true).setFlexGrow(1);
         grid.addColumn(LitRenderer.<RegistrationListEntity>of("<a href=\"${item.website}\" target=\"_blank\">${item.conference}</a>")
                 .withProperty("conference", RegistrationListEntity::conferenceName)
@@ -146,18 +146,20 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
 
     private void showRegistrationDialog(@Nullable final RegistrationListEntity registrationListEntity) {
         final var registrationRecord = registrationListEntity == null ? databaseService.newRegistration()
-                : databaseService.getRegistrationRecord(registrationListEntity.userId(), registrationListEntity.conferenceId())
+                : databaseService.getRegistrationRecord(registrationListEntity.employeeId(), registrationListEntity.conferenceId())
                 .orElse(databaseService.newRegistration());
-        final var dialog = new RegistrationDialog(registrationRecord.getUserId() != null ? "Edit Registration" : "New Registration", databaseService);
+        final var dialog = new RegistrationDialog(registrationRecord.getEmployeeId() != null
+                ? "Edit Registration" : "New Registration", databaseService);
         dialog.open(registrationRecord, this::reloadRegistrations);
     }
 
     private void deleteRegistration(@NotNull final RegistrationListEntity registrationListEntity) {
         new ConfirmDialog("Confirm deletion",
                 String.format("Are you sure you want to permanently delete the registration of \"%s %s\" for \"%s\"?",
-                        registrationListEntity.userFirstName(), registrationListEntity.userLastName(), registrationListEntity.conferenceName()),
+                        registrationListEntity.employeeFirstName(), registrationListEntity.employeeLastName(),
+                        registrationListEntity.conferenceName()),
                 "Delete", dialogEvent -> {
-            databaseService.deleteRegistration(registrationListEntity.userId(), registrationListEntity.conferenceId());
+            databaseService.deleteRegistration(registrationListEntity.employeeId(), registrationListEntity.conferenceId());
             reloadRegistrations();
             dialogEvent.getSource().close();
         },
@@ -174,16 +176,16 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
             final var stringWriter = new StringWriter();
             final var csvWriter = new CSVWriter(stringWriter);
             csvWriter.writeNext(new String[] {
-                    "User ID", "User First Name", "User Last Name",
+                    "Employee ID", "Employee First Name", "Employee Last Name",
                     "Conference ID", "Conference Name", "Conference Website",
                     "Registration Date", "Registration Role", "Registration Reason",
                     "Status", "Status Date", "Status Comment"
             });
             grid.getGenericDataView()
                     .getItems().map(registrationListEntity -> new String[] {
-                            registrationListEntity.userId().toString(),
-                            registrationListEntity.userFirstName(),
-                            registrationListEntity.userLastName(),
+                            registrationListEntity.employeeId().toString(),
+                            registrationListEntity.employeeFirstName(),
+                            registrationListEntity.employeeLastName(),
                             registrationListEntity.conferenceId().toString(),
                             registrationListEntity.conferenceName(),
                             registrationListEntity.conferenceWebsite(),

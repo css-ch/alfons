@@ -18,7 +18,7 @@
 
 package ch.css.community.alfons.ui.view.login;
 
-import ch.css.community.alfons.security.AuthenticatedUser;
+import ch.css.community.alfons.security.AuthenticatedEmployee;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -36,8 +36,8 @@ public class LogoutView extends Composite<VerticalLayout> {
     @Serial
     private static final long serialVersionUID = -1311609912638895522L;
 
-    public LogoutView(@NotNull final AuthenticatedUser authenticatedUser) {
-        authenticatedUser.logout();
+    public LogoutView(@NotNull final AuthenticatedEmployee authenticatedEmployee) {
+        authenticatedEmployee.logout();
     }
 
 }
