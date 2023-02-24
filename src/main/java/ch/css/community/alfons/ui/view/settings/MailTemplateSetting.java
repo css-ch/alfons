@@ -19,8 +19,8 @@
 package ch.css.community.alfons.ui.view.settings;
 
 import ch.css.community.alfons.data.db.tables.records.MailTemplateRecord;
-import ch.css.community.alfons.data.service.DatabaseService;
 import ch.css.community.alfons.data.entity.MailTemplateId;
+import ch.css.community.alfons.data.service.DatabaseService;
 import ch.css.community.alfons.ui.component.EnhancedButton;
 import ch.css.community.alfons.ui.component.FilterField;
 import ch.css.community.alfons.ui.component.ResizableView;
@@ -44,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.Serial;
 import java.io.StringWriter;
-import java.util.ArrayList;
+import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -113,10 +113,9 @@ public class MailTemplateSetting extends ResizableView {
     }
 
     private void showEditDialog(@Nullable final MailTemplateRecord mailTemplateRecord) {
-        final var mailTemplateIds = new ArrayList<>(databaseService.findMissingMailTemplateIds());
-        if (mailTemplateIds.isEmpty() && mailTemplateRecord != null) {
-            mailTemplateIds.add(MailTemplateId.valueOf(mailTemplateRecord.getId()));
-        }
+        final var mailTemplateIds = mailTemplateRecord != null
+                ? List.of(MailTemplateId.valueOf(mailTemplateRecord.getId()))
+                : databaseService.findMissingMailTemplateIds();
         final var dialog = new MailTemplateDialog(mailTemplateRecord != null ? "Edit Mail Template" : "New Mail Template", mailTemplateIds);
         dialog.open(mailTemplateRecord != null ? mailTemplateRecord : databaseService.newMailTemplate(), this::reloadGridItems);
     }
