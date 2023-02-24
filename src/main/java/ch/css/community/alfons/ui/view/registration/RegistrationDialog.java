@@ -23,6 +23,7 @@ import ch.css.community.alfons.data.db.tables.records.RegistrationRecord;
 import ch.css.community.alfons.data.entity.Conference;
 import ch.css.community.alfons.data.entity.Employee;
 import ch.css.community.alfons.data.service.DatabaseService;
+import ch.css.community.alfons.security.AuthenticatedEmployee;
 import ch.css.community.alfons.ui.component.EditDialog;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -38,11 +39,14 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
     private static final long serialVersionUID = 8013889745455047755L;
 
     private final DatabaseService databaseService;
+    private final AuthenticatedEmployee authenticatedEmployee;
 
     public RegistrationDialog(@NotNull final String title,
-                              @NotNull final DatabaseService databaseService) {
+                              @NotNull final DatabaseService databaseService,
+                              @NotNull final AuthenticatedEmployee authenticatedEmployee) {
         super(title);
         this.databaseService = databaseService;
+        this.authenticatedEmployee = authenticatedEmployee;
     }
 
     @Override
@@ -65,7 +69,8 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
         formLayout.add(employee, conference, role, reason);
 
         binder.forField(employee).bind(
-                record -> employees.stream().filter(e -> e.getId().equals(record.getEmployeeId())).findFirst().orElse(null),
+                record -> employees.stream().filter(e -> e.getId().equals(record.getEmployeeId())).findFirst().orElse(
+                        authenticatedEmployee.get().orElse(null)),
                 (registrationRecord, item) -> registrationRecord.setEmployeeId(item.getId()));
         binder.forField(conference).bind(
                 record -> conferences.stream().filter(c -> c.id().equals(record.getConferenceId())).findFirst().orElse(null),

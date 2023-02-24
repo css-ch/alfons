@@ -21,6 +21,7 @@ package ch.css.community.alfons.ui.view.registration;
 import ch.css.community.alfons.data.entity.RegistrationListEntity;
 import ch.css.community.alfons.data.entity.Role;
 import ch.css.community.alfons.data.service.DatabaseService;
+import ch.css.community.alfons.security.AuthenticatedEmployee;
 import ch.css.community.alfons.ui.component.EnhancedButton;
 import ch.css.community.alfons.ui.component.FilterField;
 import ch.css.community.alfons.ui.component.ResizableView;
@@ -67,11 +68,14 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
     @Serial
     private static final long serialVersionUID = 5432174661071333245L;
     private final DatabaseService databaseService;
+    private final AuthenticatedEmployee authenticatedEmployee;
     private final TextField filterField;
     private final Grid<RegistrationListEntity> grid;
 
-    public RegistrationsView(@NotNull final DatabaseService databaseService) {
+    public RegistrationsView(@NotNull final DatabaseService databaseService,
+                             @NotNull final AuthenticatedEmployee authenticatedEmployee) {
         this.databaseService = databaseService;
+        this.authenticatedEmployee = authenticatedEmployee;
 
         addClassNames("registrations-view", "flex", "flex-col", "h-full");
 
@@ -149,7 +153,7 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
                 : databaseService.getRegistrationRecord(registrationListEntity.employeeId(), registrationListEntity.conferenceId())
                 .orElse(databaseService.newRegistration());
         final var dialog = new RegistrationDialog(registrationRecord.getEmployeeId() != null
-                ? "Edit Registration" : "New Registration", databaseService);
+                ? "Edit Registration" : "New Registration", databaseService, authenticatedEmployee);
         dialog.open(registrationRecord, this::reloadRegistrations);
     }
 
