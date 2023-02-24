@@ -56,7 +56,7 @@ interface ConferenceService extends DSLContextGetter {
                 .fetchOptional();
     }
 
-    default void deleteConference(final long sponsorId) {
-        getConferenceRecord(sponsorId).ifPresent(UpdatableRecordImpl::delete);
+    default void deleteConference(final long conferenceId) {
+        getConferenceRecord(conferenceId).ifPresent(UpdatableRecordImpl::delete);
     }
 }
