@@ -20,4 +20,4 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Build with Maven
-        run: ./mvnw verify
+        run: chmod 755 ./mvnw && ./mvnw verify
