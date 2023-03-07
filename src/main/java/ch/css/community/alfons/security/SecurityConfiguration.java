@@ -18,7 +18,6 @@
 
 package ch.css.community.alfons.security;
 
-import ch.css.community.alfons.data.service.DatabaseService;
 import ch.css.community.alfons.ui.view.login.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.jetbrains.annotations.NotNull;
@@ -38,12 +37,6 @@ public class SecurityConfiguration extends VaadinWebSecurity {
 
     public static final String LOGIN_URL = "login";
     public static final String LOGOUT_URL = "/";
-
-    private final DatabaseService databaseService;
-
-    public SecurityConfiguration(@NotNull final DatabaseService databaseService) {
-        this.databaseService = databaseService;
-    }
 
     /**
      * Get a password encoder.
@@ -69,7 +62,7 @@ public class SecurityConfiguration extends VaadinWebSecurity {
     @Override
     public void configure(@NotNull final WebSecurity web) throws Exception {
         super.configure(web);
-        web.ignoring().antMatchers(
+        web.ignoring().requestMatchers(
                 // Client-side JS
                 "/VAADIN/**",
 

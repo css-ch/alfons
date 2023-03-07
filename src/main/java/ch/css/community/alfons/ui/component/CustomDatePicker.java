@@ -18,22 +18,23 @@
 
 package ch.css.community.alfons.ui.component;
 
-import com.vaadin.componentfactory.EnhancedDatePicker;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 
 import static ch.css.community.alfons.util.FormatterUtil.DATE_PATTERN;
 
-public class DatePicker extends EnhancedDatePicker {
+public class CustomDatePicker extends DatePicker {
 
     @Serial
-    private static final long serialVersionUID = -3377656832680318019L;
+    private static final long serialVersionUID = 8502404630576201105L;
 
-    public DatePicker(@NotNull final String label) {
+    public CustomDatePicker(@NotNull final String label) {
         super(label);
-        this.setPattern(DATE_PATTERN);
-        this.setI18n(new DatePickerI18N());
+        final var i18n = new CustomDatePickerI18n();
+        i18n.setDateFormat(DATE_PATTERN);
+        this.setI18n(i18n);
         this.setWeekNumbersVisible(true);
     }
 

@@ -35,7 +35,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.security.RolesAllowed;
+import jakarta.annotation.security.RolesAllowed;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;

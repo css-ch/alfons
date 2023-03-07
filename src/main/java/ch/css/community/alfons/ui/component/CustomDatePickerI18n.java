@@ -18,8 +18,8 @@
 
 package ch.css.community.alfons.ui.component;
 
-import com.vaadin.componentfactory.EnhancedDatePicker;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
@@ -29,16 +29,16 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-class DatePickerI18N extends EnhancedDatePicker.DatePickerI18n {
+class CustomDatePickerI18n extends DatePicker.DatePickerI18n {
 
     @Serial
     private static final long serialVersionUID = 9123662826442023086L;
 
-    DatePickerI18N() {
+    CustomDatePickerI18n() {
         this(UI.getCurrent().getSession().getBrowser().getLocale());
     }
 
-    DatePickerI18N(@NotNull final Locale locale) {
+    CustomDatePickerI18n(@NotNull final Locale locale) {
         final var symbols = new DateFormatSymbols(locale);
         this.setMonthNames(Arrays.asList(symbols.getMonths()));
         this.setFirstDayOfWeek(Calendar.getInstance(locale).getFirstDayOfWeek());
