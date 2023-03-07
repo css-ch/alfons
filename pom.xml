@@ -62,7 +62,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version>
+        <version>3.0.4</version>
     </parent>
 
     <repositories>
@@ -141,16 +141,6 @@
             <version>1.9.0</version>
         </dependency>
         <dependency>
-            <groupId>com.vaadin.componentfactory</groupId>
-            <artifactId>enhanced-date-picker</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.vaadin.addons.componentfactory</groupId>
-            <artifactId>enhanced-date-time-picker</artifactId>
-            <version>2.0.4</version>
-        </dependency>
-        <dependency>
             <groupId>org.vaadin.reportui</groupId>
             <artifactId>report-ui</artifactId>
             <version>4.0.2</version>
@@ -204,11 +194,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency> <!-- TODO remove after Spring 3 migration -->
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>3.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

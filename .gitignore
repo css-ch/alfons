@@ -12,6 +12,7 @@ build/
 thumbs.db
 
 # The following files are generated/updated by vaadin-maven-plugin or vaadin-gradle-plugin
+src/main/dev-bundle
 node_modules/
 frontend/generated/
 pnpmfile.js

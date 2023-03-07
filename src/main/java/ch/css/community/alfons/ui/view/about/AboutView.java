@@ -32,7 +32,7 @@ import com.vaadin.flow.router.RouteAlias;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.security.PermitAll;
+import jakarta.annotation.security.PermitAll;
 import java.io.Serial;
 
 @PageTitle("About")

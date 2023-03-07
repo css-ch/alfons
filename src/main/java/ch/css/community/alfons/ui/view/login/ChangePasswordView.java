@@ -36,7 +36,7 @@ import com.vaadin.flow.router.Route;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.AuthenticationException;
 
-import javax.annotation.security.PermitAll;
+import jakarta.annotation.security.PermitAll;
 import java.io.Serial;
 
 @Route("change-password")

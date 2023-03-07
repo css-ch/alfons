@@ -19,7 +19,7 @@
 package ch.css.community.alfons.ui.view.conference;
 
 import ch.css.community.alfons.data.db.tables.records.ConferenceRecord;
-import ch.css.community.alfons.ui.component.DatePicker;
+import ch.css.community.alfons.ui.component.CustomDatePicker;
 import ch.css.community.alfons.ui.component.EditDialog;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -47,8 +47,8 @@ public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
     @Override
     public void createForm(@NotNull final FormLayout formLayout, @NotNull final Binder<ConferenceRecord> binder) {
         final var name = new TextField("Name");
-        final var beginDate = new DatePicker("Begin date");
-        final var endDate = new DatePicker("End date");
+        final var beginDate = new CustomDatePicker("Begin date");
+        final var endDate = new CustomDatePicker("End date");
         final var website = new TextField("Website");
         final var ticket = new IntegerField("Ticket");
         final var travel = new IntegerField("Travel");
