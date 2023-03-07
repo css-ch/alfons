@@ -16,6 +16,7 @@
   ],
   "packageRules": [
     {
+      "matchManagers": ["maven", "maven-wrapper"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true,
       "automergeType": "branch",
