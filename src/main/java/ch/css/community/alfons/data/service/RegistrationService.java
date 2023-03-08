@@ -22,7 +22,6 @@ import ch.css.community.alfons.data.db.tables.records.RegistrationRecord;
 import ch.css.community.alfons.data.entity.Employee;
 import ch.css.community.alfons.data.entity.RegistrationListEntity;
 import ch.css.community.alfons.data.service.getter.DSLContextGetter;
-import ch.css.community.alfons.security.AuthenticatedEmployee;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jooq.impl.DSL;
@@ -32,8 +31,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static ch.css.community.alfons.data.db.tables.Conference.CONFERENCE;
-import static ch.css.community.alfons.data.db.tables.Registration.REGISTRATION;
 import static ch.css.community.alfons.data.db.tables.Employee.EMPLOYEE;
+import static ch.css.community.alfons.data.db.tables.Registration.REGISTRATION;
 import static org.jooq.impl.DSL.concat;
 
 interface RegistrationService extends DSLContextGetter {
