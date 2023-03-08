@@ -16,6 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+.about-view h2 {
+    margin-top: 1em;
+}
+
+.about-view h3 + p {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
 .about-view h2, .about-view p {
     margin-bottom: 0;
 }

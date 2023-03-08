@@ -34,6 +34,7 @@ import org.springframework.stereotype.Controller;
 
 import jakarta.annotation.security.PermitAll;
 import java.io.Serial;
+import java.time.Year;
 
 @PageTitle("About")
 @Route(value = "about", layout = MainLayout.class)
@@ -57,6 +58,7 @@ public class AboutView extends VerticalLayout {
         add(new H3("Make Community Management Great Again"));
         add(new Paragraph("Made with Vaadin Flow, jOOQ, Peace, and Love 🥰"));
         add(new Paragraph(new Anchor("https://www.gnu.org/licenses/agpl-3.0.en.html", "GNU Affero General Public License")));
+        add(new Paragraph(new Anchor("https://fihlon.swiss/", "Copyright © " + Year.now() + " Marcus Fihlon")));
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
