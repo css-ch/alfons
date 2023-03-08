@@ -32,6 +32,7 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
+import java.util.Objects;
 
 import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
 
@@ -56,14 +57,23 @@ public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
 
         name.setRequiredIndicatorVisible(true);
         name.setValueChangeMode(EAGER);
-        website.setValueChangeMode(EAGER);
+
+        beginDate.setRequiredIndicatorVisible(true);
+        endDate.setRequiredIndicatorVisible(true);
         endDate.addFocusListener(event -> {
             if (endDate.isEmpty() && !beginDate.isInvalid()) {
                 endDate.setValue(beginDate.getValue());
             }
         });
+
+        website.setRequiredIndicatorVisible(true);
+        website.setValueChangeMode(EAGER);
+
+        ticket.setRequiredIndicatorVisible(true);
         ticket.setPrefixComponent(new Div(new Text("CHF")));
+        travel.setRequiredIndicatorVisible(true);
         travel.setPrefixComponent(new Div(new Text("CHF")));
+        accommodation.setRequiredIndicatorVisible(true);
         accommodation.setPrefixComponent(new Div(new Text("CHF")));
 
         formLayout.add(name, beginDate, endDate, website, ticket, travel, accommodation);
@@ -74,35 +84,41 @@ public final class ConferenceDialog extends EditDialog<ConferenceRecord> {
                 .bind(ConferenceRecord::getName, ConferenceRecord::setName);
 
         binder.forField(beginDate)
-                .withValidator(value -> value == null || endDate.isEmpty()
-                                || (value.isBefore(endDate.getValue()) || value.isEqual(endDate.getValue())),
+                .withValidator(value -> value != null
+                                && (endDate.isEmpty() || value.isBefore(endDate.getValue()) || value.isEqual(endDate.getValue())),
                         "The begin date must be before the end date or they must be the same (1-day-conference)")
                 .bind(ConferenceRecord::getBeginDate, ConferenceRecord::setBeginDate);
 
         binder.forField(endDate)
-                .withValidator(value -> value == null || beginDate.isEmpty()
-                                || (value.isEqual(beginDate.getValue()) || value.isAfter(beginDate.getValue())),
+                .withValidator(value -> value != null
+                                && (beginDate.isEmpty() || value.isEqual(beginDate.getValue()) || value.isAfter(beginDate.getValue())),
                         "The end date must be after the begin date or they must be the same (1-day-conference)")
                 .bind(ConferenceRecord::getEndDate, ConferenceRecord::setEndDate);
 
         binder.forField(website)
-                .withValidator(value -> value.isEmpty() || value.startsWith("https://"),
+                .withValidator(value -> value.startsWith("https://"),
                         "The website address must start with \"https://\"")
                 .withValidator(new StringLengthValidator(
                         "The website address is too long (max. 255 chars)", 0, 255))
                 .bind(ConferenceRecord::getWebsite, ConferenceRecord::setWebsite);
 
         binder.forField(ticket)
+                .withValidator(Objects::nonNull,
+                        "Please enter the ticket price for the conference (minimum 0)")
                 .withValidator(new IntegerRangeValidator(
                         "Please enter the ticket price for the conference (minimum 0)", 0, Integer.MAX_VALUE))
                 .bind(ConferenceRecord::getTicket, ConferenceRecord::setTicket);
 
         binder.forField(travel)
+                .withValidator(Objects::nonNull,
+                        "Please enter the travel expenses for the conference (minimum 0)")
                 .withValidator(new IntegerRangeValidator(
                         "Please enter the travel expenses for the conference (minimum 0)", 0, Integer.MAX_VALUE))
                 .bind(ConferenceRecord::getTravel, ConferenceRecord::setTravel);
 
         binder.forField(accommodation)
+                .withValidator(Objects::nonNull,
+                        "Please enter the accommodation costs for the conference (minimum 0)")
                 .withValidator(new IntegerRangeValidator(
                         "Please enter the accommodation costs for the conference (minimum 0)", 0, Integer.MAX_VALUE))
                 .bind(ConferenceRecord::getAccommodation, ConferenceRecord::setAccommodation);
