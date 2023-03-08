@@ -23,15 +23,18 @@ import ch.css.community.alfons.data.db.tables.records.RegistrationRecord;
 import ch.css.community.alfons.data.entity.Conference;
 import ch.css.community.alfons.data.entity.Employee;
 import ch.css.community.alfons.data.service.DatabaseService;
-import ch.css.community.alfons.security.AuthenticatedEmployee;
 import ch.css.community.alfons.ui.component.EditDialog;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.StringLengthValidator;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
+import java.util.Objects;
+
+import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
 
 public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
 
@@ -39,18 +42,17 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
     private static final long serialVersionUID = 8013889745455047755L;
 
     private final DatabaseService databaseService;
-    private final AuthenticatedEmployee authenticatedEmployee;
 
     public RegistrationDialog(@NotNull final String title,
-                              @NotNull final DatabaseService databaseService,
-                              @NotNull final AuthenticatedEmployee authenticatedEmployee) {
+                              @NotNull final DatabaseService databaseService) {
         super(title);
         this.databaseService = databaseService;
-        this.authenticatedEmployee = authenticatedEmployee;
     }
 
     @Override
     public void createForm(@NotNull final FormLayout formLayout, @NotNull final Binder<RegistrationRecord> binder) {
+        final var editMode = binder.getBean().getConferenceId() != null;
+
         final var employee = new ComboBox<Employee>("Employee");
         final var conference = new ComboBox<Conference>("Conference");
         final var role = new ComboBox<RegistrationRole>("Role");
@@ -59,23 +61,44 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
         final var employees = databaseService.getAllEmployees().toList();
         final var conferences = databaseService.getFutureConferences().toList();
 
+        employee.setRequiredIndicatorVisible(true);
         employee.setItems(employees);
         employee.setItemLabelGenerator(item -> String.format("%s %s", item.getFirstName(), item.getLastName()));
+        employee.setReadOnly(editMode);
+
+        conference.setRequiredIndicatorVisible(true);
         conference.setItems(conferences);
         conference.setItemLabelGenerator(Conference::name);
+        conference.setReadOnly(editMode);
+
+        role.setRequiredIndicatorVisible(true);
         role.setItems(RegistrationRole.values());
         role.setItemLabelGenerator(item -> item.toString().substring(0, 1).toUpperCase() + item.toString().substring(1));
 
+        reason.setRequiredIndicatorVisible(true);
+        reason.setValueChangeMode(EAGER);
+
         formLayout.add(employee, conference, role, reason);
 
-        binder.forField(employee).bind(
-                record -> employees.stream().filter(e -> e.getId().equals(record.getEmployeeId())).findFirst().orElse(
-                        authenticatedEmployee.get().orElse(null)),
+        binder.forField(employee)
+                .withValidator(Objects::nonNull,
+                        "Please select the employee who wants to attend the conference")
+                .bind(
+                record -> employees.stream().filter(e -> e.getId().equals(record.getEmployeeId())).findFirst().orElse(null),
                 (registrationRecord, item) -> registrationRecord.setEmployeeId(item.getId()));
-        binder.forField(conference).bind(
+        binder.forField(conference)
+                .withValidator(Objects::nonNull,
+                        "Please select the conference the employee wants to attend")
+                .bind(
                 record -> conferences.stream().filter(c -> c.id().equals(record.getConferenceId())).findFirst().orElse(null),
                 (registrationRecord, item) -> registrationRecord.setConferenceId(item.id()));
-        binder.forField(role).bind(RegistrationRecord::getRole, RegistrationRecord::setRole);
-        binder.forField(reason).bind(RegistrationRecord::getReason, RegistrationRecord::setReason);
+        binder.forField(role)
+                .withValidator(Objects::nonNull,
+                        "Please select the role at the conference")
+                .bind(RegistrationRecord::getRole, RegistrationRecord::setRole);
+        binder.forField(reason)
+                .withValidator(new StringLengthValidator(
+                        "Please state the reason for the conference visit", 30, 500))
+                .bind(RegistrationRecord::getReason, RegistrationRecord::setReason);
     }
 }

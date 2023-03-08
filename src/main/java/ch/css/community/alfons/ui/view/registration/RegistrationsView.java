@@ -149,11 +149,12 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
     }
 
     private void showRegistrationDialog(@Nullable final RegistrationListEntity registrationListEntity) {
-        final var registrationRecord = registrationListEntity == null ? databaseService.newRegistration()
+        final var employee = authenticatedEmployee.get().orElse(null);
+        final var registrationRecord = registrationListEntity == null ? databaseService.newRegistration(employee)
                 : databaseService.getRegistrationRecord(registrationListEntity.employeeId(), registrationListEntity.conferenceId())
-                .orElse(databaseService.newRegistration());
-        final var dialog = new RegistrationDialog(registrationRecord.getEmployeeId() != null
-                ? "Edit Registration" : "New Registration", databaseService, authenticatedEmployee);
+                .orElse(databaseService.newRegistration(employee));
+        final var dialog = new RegistrationDialog(registrationRecord.getConferenceId() != null
+                ? "Edit Registration" : "New Registration", databaseService);
         dialog.open(registrationRecord, this::reloadRegistrations);
     }
 

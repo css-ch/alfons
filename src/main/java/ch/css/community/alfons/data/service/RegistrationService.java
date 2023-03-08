@@ -19,8 +19,10 @@
 package ch.css.community.alfons.data.service;
 
 import ch.css.community.alfons.data.db.tables.records.RegistrationRecord;
+import ch.css.community.alfons.data.entity.Employee;
 import ch.css.community.alfons.data.entity.RegistrationListEntity;
 import ch.css.community.alfons.data.service.getter.DSLContextGetter;
+import ch.css.community.alfons.security.AuthenticatedEmployee;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jooq.impl.DSL;
@@ -36,8 +38,12 @@ import static org.jooq.impl.DSL.concat;
 
 interface RegistrationService extends DSLContextGetter {
 
-    default RegistrationRecord newRegistration() {
-        return dsl().newRecord(REGISTRATION);
+    default RegistrationRecord newRegistration(@Nullable final Employee employee) {
+        final var registration = dsl().newRecord(REGISTRATION);
+        if (employee != null) {
+            registration.setEmployeeId(employee.getId());
+        }
+        return registration;
     }
 
     default Stream<RegistrationListEntity> findRegistrations(
