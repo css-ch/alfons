@@ -1,3 +1,5 @@
+![Alfons](https://raw.githubusercontent.com/McPringle/alfons/main/src/main/resources/META-INF/resources/images/alfons.png)
+
 # Alfons
 
 **An open-source application for companies to manage requests from their employees to attend a conference.
