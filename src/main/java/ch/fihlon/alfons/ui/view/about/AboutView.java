@@ -28,17 +28,16 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
+import jakarta.annotation.security.PermitAll;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
-import jakarta.annotation.security.PermitAll;
 import java.io.Serial;
 import java.time.Year;
 
 @PageTitle("About")
 @Route(value = "about", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
 @PermitAll
 @CssImport(value = "./themes/alfons/views/about-view.css")
 public class AboutView extends VerticalLayout {
@@ -46,7 +45,7 @@ public class AboutView extends VerticalLayout {
     @Serial
     private static final long serialVersionUID = -1822311280501874947L;
 
-    public AboutView(final AboutViewVersionController versionController) {
+    public AboutView(@NotNull final AboutViewVersionController versionController) {
         addClassNames("about-view");
         setSpacing(false);
 
@@ -67,7 +66,7 @@ public class AboutView extends VerticalLayout {
     }
 
     @Controller
-    static class AboutViewVersionController {
+    protected static final class AboutViewVersionController {
 
         @Value("${alfons.version}")
         private String version = "UNKNOWN";
