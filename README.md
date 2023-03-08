@@ -53,7 +53,7 @@ Once the JAR file is built, you can run it using
 To build the Dockerized version of the project, run
 
 ```
-mvn clean package -Pproduction
+./mvnw clean package -Pproduction
 docker build . -t alfons:latest
 ```
 
