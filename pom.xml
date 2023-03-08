@@ -2,19 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>ch.css.community</groupId>
+    <groupId>ch.fihlon</groupId>
     <artifactId>alfons</artifactId>
     <name>alfons</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>An open-source application for companies to manage requests from their employees to attend a conference. With approval workflow, budget management, and reports.</description>
-    <url>https://github.com/css-ch/alfons</url>
+    <url>https://github.com/McPringle/alfons</url>
     <inceptionYear>2022</inceptionYear>
 
     <licenses>
         <license>
             <name>GNU Affero General Public License v3.0 only</name>
-            <url>https://github.com/css-ch/alfons/blob/main/LICENSE.md</url>
+            <url>https://github.com/McPringle/alfons/blob/main/LICENSE.md</url>
             <distribution>manual</distribution>
             <comments>A FSF Free/Libre and OSI approved license</comments>
         </license>
@@ -40,14 +40,14 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/css-ch/alfons/issues</url>
+        <url>https://github.com/McPringle/alfons/issues</url>
     </issueManagement>
 
     <scm>
-        <connection>scm:git:https://github.com/css-ch/alfons.git</connection>
-        <developerConnection>scm:git:https://github.com/css-ch/alfons.git</developerConnection>
+        <connection>scm:git:https://github.com/McPringle/alfons.git</connection>
+        <developerConnection>scm:git:https://github.com/McPringle/alfons.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/css-ch/alfons</url>
+        <url>https://github.com/McPringle/alfons</url>
     </scm>
 
     <properties>
@@ -408,7 +408,7 @@
                             <javaTimeTypes>true</javaTimeTypes>
                         </generate>
                         <target>
-                            <packageName>ch.css.community.alfons.data.db</packageName>
+                            <packageName>ch.fihlon.alfons.data.db</packageName>
                             <directory>target/generated-sources/jooq</directory>
                         </target>
                     </generator>
