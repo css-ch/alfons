@@ -21,7 +21,6 @@ package ch.css.community.alfons.components.appnav;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.internal.StateTree;
 import com.vaadin.flow.router.RouteConfiguration;
@@ -53,20 +52,19 @@ public final class AppNavItem extends Component {
      *            the label for the item
      * @param view
      *            the view to link to
-     * @param iconClass
-     *            the CSS class to use for showing the icon
+     * @param icon
+     *            the component to be used as the icon
      */
-    public AppNavItem(final String label, final Class<? extends Component> view, final String iconClass) {
+    public AppNavItem(final String label, final Class<? extends Component> view, final Component icon) {
         setPath(view);
         setLabel(label);
-
-        setIconClass(iconClass);
+        setIcon(icon);
     }
 
     /**
      * Set a textual label for the item.
      * <p>
-     * The label is also available for screen rader users.
+     * The label is also available for screen reader users.
      *
      * @param label
      *            the label to set
@@ -152,6 +150,7 @@ public final class AppNavItem extends Component {
      * Sets the icon for the item.
      * <p>
      * Can also be used to set a custom component to be shown in front of the label.
+     * </p>
      *
      * @param icon
      *            the icon to show
@@ -168,20 +167,4 @@ public final class AppNavItem extends Component {
         return this;
     }
 
-    /**
-     * Sets the icon using a CSS class for the item.
-     * <p>
-     * Can also be used to set a custom component to be shown in front of the label.
-     * </p>
-     *
-     * @param iconClass
-     *            the CSS class to use for showing the icon
-     * @return this instance for chaining
-     */
-    public AppNavItem setIconClass(final String iconClass) {
-        Span icon = new Span();
-        icon.setClassName(iconClass);
-        setIcon(icon);
-        return this;
-    }
 }

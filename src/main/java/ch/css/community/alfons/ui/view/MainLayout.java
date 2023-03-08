@@ -46,6 +46,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.jetbrains.annotations.NotNull;
+import org.vaadin.lineawesome.LineAwesomeIcon;
 
 import java.io.Serial;
 import java.util.ArrayList;
@@ -161,10 +162,10 @@ public final class MainLayout extends AppLayout {
         final var nav = new AppNav();
 
         final var views = new ArrayList<MainMenuItem>();
-        views.add(new MainMenuItem("Registrations", RegistrationsView.class, "la la-users"));
-        views.add(new MainMenuItem("Conferences", ConferencesView.class, "la la-university"));
-        views.add(new MainMenuItem("Settings", SettingsView.class, "la la-cog"));
-        views.add(new MainMenuItem("About", AboutView.class, "la la-info-circle"));
+        views.add(new MainMenuItem("Registrations", RegistrationsView.class, LineAwesomeIcon.USERS_SOLID));
+        views.add(new MainMenuItem("Conferences", ConferencesView.class, LineAwesomeIcon.UNIVERSITY_SOLID));
+        views.add(new MainMenuItem("Settings", SettingsView.class, LineAwesomeIcon.COG_SOLID));
+        views.add(new MainMenuItem("About", AboutView.class, LineAwesomeIcon.INFO_CIRCLE_SOLID));
 
         views.forEach(mainMenuItem -> {
             if (accessChecker.hasAccess(mainMenuItem.view())) {

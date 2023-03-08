@@ -20,11 +20,12 @@ package ch.css.community.alfons.ui.view;
 
 import ch.css.community.alfons.components.appnav.AppNavItem;
 import com.vaadin.flow.component.Component;
+import org.vaadin.lineawesome.LineAwesomeIcon;
 
-public record MainMenuItem(String label, Class<? extends Component> view, String iconClass) {
+public record MainMenuItem(String label, Class<? extends Component> view, LineAwesomeIcon icon) {
 
     AppNavItem toAppNavItem() {
-        return new AppNavItem(label(), view(), iconClass());
+        return new AppNavItem(label(), view(), icon().create());
     }
 
 }
