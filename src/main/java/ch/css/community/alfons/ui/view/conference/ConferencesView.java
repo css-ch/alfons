@@ -29,6 +29,7 @@ import com.opencsv.CSVWriter;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.icon.Icon;
@@ -45,13 +46,14 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamRegistration;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
+import jakarta.annotation.security.RolesAllowed;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import jakarta.annotation.security.RolesAllowed;
 import java.io.ByteArrayInputStream;
 import java.io.Serial;
 import java.io.StringWriter;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -132,6 +134,15 @@ public final class ConferencesView extends ResizableView implements HasUrlParame
                 .setAutoWidth(true)
                 .setFlexGrow(0)
                 .setKey("endDate");
+        final var registrationCountRenderer = LitRenderer.<Conference>of(
+                        "<a href=\"/registrations?filter=${item.filterValue}\">${item.registrationCount}</a>")
+                .withProperty("registrationCount", Conference::registrationCount)
+                .withProperty("filterValue", conference -> URLEncoder.encode(conference.name(), UTF_8));
+        grid.addColumn(registrationCountRenderer)
+                .setHeader("Registrations")
+                .setAutoWidth(true)
+                .setTextAlign(ColumnTextAlign.CENTER)
+                .setFlexGrow(0);
 
         grid.addColumn(new ComponentRenderer<>(conference -> {
             final var editButton = new EnhancedButton(new Icon(VaadinIcon.EDIT), clickEvent -> showConferenceDialog(conference));

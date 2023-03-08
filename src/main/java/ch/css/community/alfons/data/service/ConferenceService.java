@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static ch.css.community.alfons.data.db.tables.Conference.CONFERENCE;
+import static ch.css.community.alfons.data.db.tables.Registration.REGISTRATION;
 
 interface ConferenceService extends DSLContextGetter {
 
@@ -42,9 +43,11 @@ interface ConferenceService extends DSLContextGetter {
 
     default Stream<ch.css.community.alfons.data.entity.Conference> findConferences(final int offset, final int limit, @Nullable final String filter) {
         final var filterValue = filter == null || filter.isBlank() ? null : "%" + filter.trim() + "%";
-        return dsl().select(CONFERENCE.asterisk())
+        return dsl().select(CONFERENCE.asterisk(), DSL.count(REGISTRATION.EMPLOYEE_ID))
                 .from(CONFERENCE)
+                .leftOuterJoin(REGISTRATION).on(REGISTRATION.CONFERENCE_ID.eq(CONFERENCE.ID))
                 .where(filterValue == null ? DSL.noCondition() : CONFERENCE.NAME.like(filterValue))
+                .groupBy(CONFERENCE.ID)
                 .orderBy(CONFERENCE.BEGIN_DATE.desc().nullsFirst(), CONFERENCE.NAME)
                 .offset(offset)
                 .limit(limit)
@@ -53,8 +56,11 @@ interface ConferenceService extends DSLContextGetter {
     }
 
     default Stream<ch.css.community.alfons.data.entity.Conference> getFutureConferences() {
-        return dsl().selectFrom(CONFERENCE)
+        return dsl().select(CONFERENCE.asterisk(), DSL.count(REGISTRATION.EMPLOYEE_ID))
+                .from(CONFERENCE)
+                .leftOuterJoin(REGISTRATION).on(REGISTRATION.CONFERENCE_ID.eq(CONFERENCE.ID))
                 .where(CONFERENCE.BEGIN_DATE.greaterThan(LocalDate.now()))
+                .groupBy(CONFERENCE.ID)
                 .orderBy(CONFERENCE.BEGIN_DATE, CONFERENCE.NAME)
                 .fetchInto(ch.css.community.alfons.data.entity.Conference.class)
                 .stream();
