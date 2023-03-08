@@ -26,8 +26,11 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import jakarta.annotation.security.PermitAll;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,9 +41,10 @@ import java.time.Year;
 
 @PageTitle("About")
 @Route(value = "about", layout = MainLayout.class)
+@RouteAlias(value = "", layout = MainLayout.class)
 @PermitAll
 @CssImport(value = "./themes/alfons/views/about-view.css")
-public class AboutView extends VerticalLayout {
+public final class AboutView extends VerticalLayout implements BeforeEnterObserver {
 
     @Serial
     private static final long serialVersionUID = -1822311280501874947L;
@@ -65,8 +69,16 @@ public class AboutView extends VerticalLayout {
         getStyle().set("text-align", "center");
     }
 
+    @Override
+    public void beforeEnter(@NotNull final BeforeEnterEvent event) {
+        // redirect root URL (see PageAlias) to about page
+        if (event.getLocation().getPath().equals("")) {
+            event.forwardToUrl("/about");
+        }
+    }
+
     @Controller
-    protected static final class AboutViewVersionController {
+    static final class AboutViewVersionController {
 
         @Value("${alfons.version}")
         private String version = "UNKNOWN";
