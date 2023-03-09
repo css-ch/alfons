@@ -18,6 +18,7 @@
 
 package ch.fihlon.alfons.ui.view.registration;
 
+import ch.fihlon.alfons.data.db.enums.RegistrationStatus;
 import ch.fihlon.alfons.data.entity.RegistrationListEntity;
 import ch.fihlon.alfons.data.entity.Role;
 import ch.fihlon.alfons.data.service.DatabaseService;
@@ -139,6 +140,7 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
             editButton.setTitle("Edit this registration");
             final var deleteButton = new EnhancedButton(new Icon(VaadinIcon.TRASH), clickEvent -> deleteRegistration(registrationListEntity));
             deleteButton.setTitle("Delete this registration");
+            deleteButton.setEnabled(registrationListEntity.status().equals(RegistrationStatus.submitted));
             return new HorizontalLayout(editButton, deleteButton);
         }))
                 .setHeader("Actions")
