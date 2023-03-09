@@ -149,6 +149,7 @@ public final class ConferencesView extends ResizableView implements HasUrlParame
             editButton.setTitle("Edit this conference");
             final var deleteButton = new EnhancedButton(new Icon(VaadinIcon.TRASH), clickEvent -> deleteConference(conference));
             deleteButton.setTitle("Delete this conference");
+            deleteButton.setEnabled(conference.registrationCount() == 0);
             return new HorizontalLayout(editButton, deleteButton);
         }))
                 .setHeader("Actions")
