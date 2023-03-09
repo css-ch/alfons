@@ -77,7 +77,7 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
     public RegistrationsView(@NotNull final DatabaseService databaseService,
                              @NotNull final AuthenticatedEmployee authenticatedEmployee) {
         this.databaseService = databaseService;
-        this.user = authenticatedEmployee.get().orElse(null);
+        this.user = authenticatedEmployee.get().orElseThrow();
 
         addClassNames("registrations-view", "flex", "flex-col", "h-full");
 
@@ -111,7 +111,8 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
         final var location = beforeEvent.getLocation();
         final var queryParameters = location.getQueryParameters();
         final var parameters = queryParameters.getParameters();
-        final var filterValue = parameters.getOrDefault("filter", List.of("")).get(0);
+        final var filterDefault = user.getAdmin() ? "" : user.getFullName();
+        final var filterValue = parameters.getOrDefault("filter", List.of(filterDefault)).get(0);
         filterField.setValue(filterValue);
     }
 
