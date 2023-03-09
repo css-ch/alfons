@@ -142,6 +142,7 @@ public final class MainLayout extends AppLayout {
             final var avatar = new Avatar(String.format("%s %s", employee.getFirstName(), employee.getLastName()));
             avatar.setImage(GravatarUtil.getGravatarAddress(employee.getEmail().toLowerCase(Locale.getDefault())));
             avatar.getStyle().set("cursor", "pointer");
+            avatar.setTooltipEnabled(true);
             return avatar;
         } else {
             return new Avatar();
