@@ -19,6 +19,7 @@
 package ch.fihlon.alfons.ui.view.registration;
 
 import ch.fihlon.alfons.data.db.enums.RegistrationStatus;
+import ch.fihlon.alfons.data.entity.Employee;
 import ch.fihlon.alfons.data.entity.RegistrationListEntity;
 import ch.fihlon.alfons.data.entity.Role;
 import ch.fihlon.alfons.data.service.DatabaseService;
@@ -69,14 +70,14 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
     @Serial
     private static final long serialVersionUID = 5432174661071333245L;
     private final DatabaseService databaseService;
-    private final AuthenticatedEmployee authenticatedEmployee;
+    private final Employee user;
     private final TextField filterField;
     private final Grid<RegistrationListEntity> grid;
 
     public RegistrationsView(@NotNull final DatabaseService databaseService,
                              @NotNull final AuthenticatedEmployee authenticatedEmployee) {
         this.databaseService = databaseService;
-        this.authenticatedEmployee = authenticatedEmployee;
+        this.user = authenticatedEmployee.get().orElse(null);
 
         addClassNames("registrations-view", "flex", "flex-col", "h-full");
 
@@ -140,7 +141,8 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
             editButton.setTitle("Edit this registration");
             final var deleteButton = new EnhancedButton(new Icon(VaadinIcon.TRASH), clickEvent -> deleteRegistration(registrationListEntity));
             deleteButton.setTitle("Delete this registration");
-            deleteButton.setEnabled(registrationListEntity.status().equals(RegistrationStatus.submitted));
+            deleteButton.setEnabled(registrationListEntity.status().equals(RegistrationStatus.submitted) && user != null
+                    && (user.getId().equals(registrationListEntity.employeeId()) || user.getRoles().contains(Role.ADMIN)));
             return new HorizontalLayout(editButton, deleteButton);
         }))
                 .setHeader("Actions")
@@ -151,10 +153,9 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
     }
 
     private void showRegistrationDialog(@Nullable final RegistrationListEntity registrationListEntity) {
-        final var employee = authenticatedEmployee.get().orElse(null);
-        final var registrationRecord = registrationListEntity == null ? databaseService.newRegistration(employee)
+        final var registrationRecord = registrationListEntity == null ? databaseService.newRegistration(user)
                 : databaseService.getRegistrationRecord(registrationListEntity.employeeId(), registrationListEntity.conferenceId())
-                .orElse(databaseService.newRegistration(employee));
+                .orElse(databaseService.newRegistration(user));
         final var dialog = new RegistrationDialog(registrationRecord.getConferenceId() != null
                 ? "Edit Registration" : "New Registration", databaseService);
         dialog.open(registrationRecord, this::reloadRegistrations);
