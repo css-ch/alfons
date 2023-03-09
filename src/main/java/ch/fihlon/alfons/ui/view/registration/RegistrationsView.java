@@ -142,8 +142,8 @@ public final class RegistrationsView extends ResizableView implements HasUrlPara
             editButton.setTitle("Edit this registration");
             final var deleteButton = new EnhancedButton(new Icon(VaadinIcon.TRASH), clickEvent -> deleteRegistration(registrationListEntity));
             deleteButton.setTitle("Delete this registration");
-            deleteButton.setEnabled(registrationListEntity.status().equals(RegistrationStatus.submitted) && user != null
-                    && (user.getId().equals(registrationListEntity.employeeId()) || user.getRoles().contains(Role.ADMIN)));
+            deleteButton.setEnabled(registrationListEntity.status().equals(RegistrationStatus.submitted)
+                    && (user.getId().equals(registrationListEntity.employeeId()) || user.getAdmin()));
             return new HorizontalLayout(editButton, deleteButton);
         }))
                 .setHeader("Actions")
