@@ -23,6 +23,7 @@ import ch.fihlon.alfons.security.SecurityService;
 import ch.fihlon.alfons.ui.view.about.AboutView;
 import ch.fihlon.alfons.security.AuthenticatedEmployee;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.notification.Notification;
@@ -38,6 +39,7 @@ import java.io.Serial;
 @Route(value = "login")
 @PageTitle("Login")
 @AnonymousAllowed
+@CssImport(value = "./themes/alfons/views/login-view.css")
 public final class LoginView extends LoginOverlay implements BeforeEnterObserver {
 
     @Serial
@@ -48,6 +50,7 @@ public final class LoginView extends LoginOverlay implements BeforeEnterObserver
                      @NotNull final SecurityService securityService,
                      @NotNull final LoginAttemptService loginAttemptService) {
         this.authenticatedEmployee = authenticatedEmployee;
+        addClassNames("login-view");
         setAction("login");
 
         final var i18n = LoginI18n.createDefault();
