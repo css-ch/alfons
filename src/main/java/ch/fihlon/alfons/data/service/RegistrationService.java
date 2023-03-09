@@ -50,7 +50,7 @@ interface RegistrationService extends DSLContextGetter {
         final var filterValue = filter == null || filter.isBlank() ? null : "%" + filter.trim() + "%";
         return dsl().select(EMPLOYEE.ID, EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME,
                         CONFERENCE.ID, CONFERENCE.NAME, CONFERENCE.WEBSITE,
-                        REGISTRATION.DATE, REGISTRATION.ROLE, REGISTRATION.REASON,
+                        REGISTRATION.REGISTRATION_DATE, REGISTRATION.ROLE, REGISTRATION.REASON,
                         REGISTRATION.STATUS, REGISTRATION.STATUS_DATE, REGISTRATION.STATUS_COMMENT)
                 .from(REGISTRATION)
                 .leftJoin(EMPLOYEE).on(REGISTRATION.EMPLOYEE_ID.eq(EMPLOYEE.ID))
@@ -58,7 +58,7 @@ interface RegistrationService extends DSLContextGetter {
                 .where(filterValue == null ? DSL.noCondition()
                         : concat(EMPLOYEE.FIRST_NAME, DSL.value(" "), EMPLOYEE.LAST_NAME).like(filterValue)
                                 .or(CONFERENCE.NAME.like(filterValue)))
-                .orderBy(REGISTRATION.DATE.desc().nullsFirst())
+                .orderBy(REGISTRATION.REGISTRATION_DATE.desc().nullsFirst())
                 .offset(offset)
                 .limit(limit)
                 .fetchInto(RegistrationListEntity.class)
