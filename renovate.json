@@ -7,6 +7,9 @@
     "package.json",
     "pnpm-lock.yaml"
   ],
+  "labels": [
+    "dependencies"
+  ],
   "assignees": [
     "McPringle"
   ],
