@@ -23,7 +23,7 @@ Be mindful of the fact that this project is maintained by volunteers and built o
 ## Submitting a Pull Request
 
 1. [Fork the repository](https://help.github.com/articles/fork-a-repo).
-2. [Create a topic branch](https://help.github.com/articles/fork-a-repo#create-branches) (preferably using the pattern `issue-XYZ`, where `XYZ` is the issue number).
+2. [Create a topic branch](https://docs.github.com/de/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository) (preferably using the pattern `issue-XYZ`, where `XYZ` is the issue number).
 3. Add tests for your unimplemented feature or bug fix.
 4. Run `./mvnw verify` to run the tests and check the source code for possible errors. If your tests and the checks pass, return to step 3.
 5. Implement your feature or bug fix.
