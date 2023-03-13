@@ -178,6 +178,11 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Authors
+## Contributors
 
-*Alfons* is led by [Marcus Fihlon](https://github.com/McPringle) and has received contributions from [many individuals](https://github.com/McPringle/alfons/blob/main/CONTRIBUTORS.md) in *Alfons* awesome community. The project was initiated in 2023 by Marcus Fihlon.
+Special thanks for all these wonderful people who had helped this project so far ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+*Alfons* is led by [Marcus Fihlon](https://github.com/McPringle) and has received contributions from many individuals in *Alfons* awesome community. The project was initiated in 2023 by Marcus Fihlon.
