@@ -186,6 +186,27 @@ Special thanks for all these wonderful people who had helped this project so far
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
+## Contributing
+
+New contributors are always welcome! If you discover errors or omissions in the source code, documentation, or website content, please don’t hesitate to submit an issue or open a pull request with a fix.
+
+Here are some ways **you** can contribute:
+
+- by using prerelease (alpha, beta or preview) versions
+- by reporting bugs
+- by suggesting new features
+- by writing or editing documentation
+- by writing code with tests -- *no patch is too small*
+  - fix typos
+  - add comments
+  - clean up inconsistent whitespace
+  - write tests!
+- by refactoring code
+- by fixing [issues](https://github.com/McPringle/alfons/issues)
+- by reviewing [patches](https://github.com/McPringle/alfons/pulls)
+
+The [Contributing](CONTRIBUTING.md) guide provides information on how to create, style, and submit issues, feature requests, code, and documentation to the *Alfons* project.
+
 ## Copyright and License
 
 [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.html)
