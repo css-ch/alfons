@@ -190,7 +190,7 @@ Special thanks for all these wonderful people who had helped this project so far
 
 [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.html)
 
-*Copyright (C) Marcus Fihlon and the individual contributors to Alfons.*
+*Copyright © Marcus Fihlon and the individual contributors to Alfons.*
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
