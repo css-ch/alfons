@@ -188,7 +188,7 @@ Special thanks for all these wonderful people who had helped this project so far
 
 ## Copyright and License
 
-[AGPL License](https://www.gnu.org/licenses/agpl-3.0.de.html)
+[GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.html)
 
 *Copyright (C) Marcus Fihlon and the individual contributors to Alfons.*
 
