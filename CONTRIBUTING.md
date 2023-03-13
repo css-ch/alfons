@@ -33,4 +33,4 @@ Be mindful of the fact that this project is maintained by volunteers and built o
 9. Add, commit, and push your changes.
 10. [Submit a pull request](https://help.github.com/articles/using-pull-requests).
 
-For ideas about how to use pull requests, see the post http://blog.quickpeople.co.uk/2013/07/10/useful-github-patterns[Useful GitHub Patterns].
+For ideas about how to use pull requests, see the post [Useful GitHub Patterns](http://blog.quickpeople.co.uk/2013/07/10/useful-github-patterns).
