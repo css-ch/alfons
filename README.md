@@ -5,6 +5,66 @@
 **An open-source application for companies to manage requests from their employees to attend a conference.
 With approval workflow, budget management, and reports.**
 
+## Architecture
+
+*Alfons* is written using the [Java programming language](https://en.wikipedia.org/wiki/Java_(programming_language)). The main framework is [Spring](https://spring.io/). For the user interface, we use [Vaadin Flow](https://vaadin.com/flow). To access the database, we rely on [jOOQ](https://www.jooq.org/).
+
+## Configuration
+
+The file `application.properties` contains only some default values. To override the default values and to specify other configuration options, just set them as environment variables. The following sections describe all available configuration options. You only need to specify these options if your configuration settings differ from the defaults.
+
+### Server
+
+The server runs on port 8080 by default. If you don't like it, change it:
+
+```
+PORT=8080
+```
+
+### Mail
+
+To be able to send mails, you need to specify an SMTP server (defaults are `localhost` and port`25`):
+
+```
+MAIL_HOST=localhost
+MAIL_PORT=25
+```
+
+### Database
+
+*Alfons* needs a database to store the business data. All JDBC compatible databases are supported. By default, *Alfons* uses an in memory [H2](https://www.h2database.com/) database. You don't need to configure anything, but you will lose all your data when you stop *Alfons*.
+
+To permanently store data, we highly recommend [MariaDB](https://mariadb.org/), just because we are using it during development, and it is highly tested with *Alfons*. Please make sure that your database is using a unicode character set to avoid problems storing data containing unicode characters.
+
+The `DB_USER` is used to access the *Alfons* database including automatic schema migrations and needs `ALL PRIVILEGES`.
+
+```
+DB_URL=jdbc:mariadb://localhost:3306/alfons?serverTimezone\=Europe/Zurich
+DB_USER=johndoe
+DB_PASS=verysecret
+```
+
+The database schema will be migrated automatically by *Alfons*.
+
+#### Important MySQL and MariaDB configuration
+
+MySQL and MariaDB have a possible silent truncation problem with the `GROUP_CONCAT` command. To avoid this it is necessary, to configure these two databases to allow multi queries. Just add `allowMultiQueries=true` to the JDBC database URL like in this example (you may need to scroll the example code to the right):
+
+```
+DB_URL=jdbc:mariadb://localhost:3306/alfons?serverTimezone\=Europe/Zurich&allowMultiQueries=true
+```
+
+### Admin
+
+You will need at least one administrator. Therefore, you should add yourself as admin to the database, **after** you have started *Alfons* (because the database tables will be created at the first start):
+
+```sql
+INSERT INTO `employee` (`id`, `first_name`, `last_name`, `email`, `admin`, `password_change`)
+VALUES (1, 'First name', 'Last name', 'email@domain.tld', TRUE, TRUE);
+```
+
+Then, open `http://localhost:8080/login`, enter your email address, and click on "I forgot my password" to start the password reset process (you will receive a one time password via email), and set your own admin password.
+
 ## Running the application
 
 The project is a standard Maven project. To run it from the command line,
