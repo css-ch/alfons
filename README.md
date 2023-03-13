@@ -198,4 +198,4 @@ Special thanks for all these wonderful people who had helped this project so far
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-*Alfons* is led by [Marcus Fihlon](https://github.com/McPringle) and has received contributions from many individuals in *Alfons* awesome community. The project was initiated in 2023 by Marcus Fihlon.
+*Alfons* is led by [Marcus Fihlon](https://github.com/McPringle) and has received contributions from many individuals in *Alfons* awesome community. The project was initiated in 2022 by Marcus Fihlon.
