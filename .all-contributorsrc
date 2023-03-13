@@ -11,17 +11,6 @@
   "commitConvention": "gitmoji",
   "badgeTemplate": "[![All Contributors](https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square)](#contributors)",
   "contributors": [
-    {
-      "login": "McPringle",
-      "name": "Marcus Fihlon",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1254039?v=4",
-      "profile": "https://github.com/McPringle",
-      "contributions": [
-        "projectManagement",
-        "ideas",
-        "code"
-      ]
-    }
   ],
   "contributorsPerLine": 7,
   "linkToUsage": false
