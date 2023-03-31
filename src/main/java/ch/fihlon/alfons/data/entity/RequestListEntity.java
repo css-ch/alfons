@@ -17,12 +17,12 @@
  */
 package ch.fihlon.alfons.data.entity;
 
-import ch.fihlon.alfons.data.db.enums.RegistrationRole;
-import ch.fihlon.alfons.data.db.enums.RegistrationStatus;
+import ch.fihlon.alfons.data.db.enums.RequestRole;
+import ch.fihlon.alfons.data.db.enums.RequestStatus;
 
 import java.time.LocalDateTime;
 
-public record RegistrationListEntity(Long employeeId, String employeeFirstName, String employeeLastName,
-                                     Long conferenceId, String conferenceName, String conferenceWebsite,
-                                     LocalDateTime registrationDate, RegistrationRole registrationRole, String registrationReason,
-                                     RegistrationStatus status, LocalDateTime statusDate, String statusComment) { }
+public record RequestListEntity(Long employeeId, String employeeFirstName, String employeeLastName,
+                                Long conferenceId, String conferenceName, String conferenceWebsite,
+                                LocalDateTime requestDate, RequestRole requestRole, String requestReason,
+                                RequestStatus status, LocalDateTime statusDate, String statusComment) { }

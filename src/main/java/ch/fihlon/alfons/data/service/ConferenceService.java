@@ -31,22 +31,22 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static ch.fihlon.alfons.data.db.tables.Conference.CONFERENCE;
-import static ch.fihlon.alfons.data.db.tables.Registration.REGISTRATION;
+import static ch.fihlon.alfons.data.db.tables.Request.REQUEST;
 
 interface ConferenceService extends DSLContextGetter {
 
     default ConferenceRecord newConferenceRecord() {
-        final var conference = dsl().newRecord(CONFERENCE);
-        conference.setName("");
-        conference.setWebsite("");
-        return conference;
+        final var conferenceRecord = dsl().newRecord(CONFERENCE);
+        conferenceRecord.setName("");
+        conferenceRecord.setWebsite("");
+        return conferenceRecord;
     }
 
     default Stream<Conference> findConferences(final int offset, final int limit, @Nullable final String filter) {
         final var filterValue = filter == null || filter.isBlank() ? null : "%" + filter.trim() + "%";
-        return dsl().select(CONFERENCE.asterisk(), DSL.count(REGISTRATION.EMPLOYEE_ID))
+        return dsl().select(CONFERENCE.asterisk(), DSL.count(REQUEST.EMPLOYEE_ID))
                 .from(CONFERENCE)
-                .leftOuterJoin(REGISTRATION).on(REGISTRATION.CONFERENCE_ID.eq(CONFERENCE.ID))
+                .leftOuterJoin(REQUEST).on(REQUEST.CONFERENCE_ID.eq(CONFERENCE.ID))
                 .where(filterValue == null ? DSL.noCondition() : CONFERENCE.NAME.like(filterValue))
                 .groupBy(CONFERENCE.ID)
                 .orderBy(CONFERENCE.BEGIN_DATE.desc().nullsFirst(), CONFERENCE.NAME)

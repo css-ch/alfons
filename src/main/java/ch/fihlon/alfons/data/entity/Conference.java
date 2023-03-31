@@ -22,4 +22,4 @@ import java.time.LocalDate;
 
 public record Conference(Long id, String name, LocalDate beginDate, LocalDate endDate, String website,
                          Integer ticket, Integer travel, Integer accommodation,
-                         Integer registrationCount) { }
+                         Integer requestCount) { }

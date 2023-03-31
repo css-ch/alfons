@@ -18,9 +18,9 @@
 
 package ch.fihlon.alfons.data.service;
 
-import ch.fihlon.alfons.data.db.tables.records.RegistrationRecord;
+import ch.fihlon.alfons.data.db.tables.records.RequestRecord;
 import ch.fihlon.alfons.data.entity.Employee;
-import ch.fihlon.alfons.data.entity.RegistrationListEntity;
+import ch.fihlon.alfons.data.entity.RequestListEntity;
 import ch.fihlon.alfons.data.service.getter.DSLContextGetter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,46 +32,46 @@ import java.util.stream.Stream;
 
 import static ch.fihlon.alfons.data.db.tables.Conference.CONFERENCE;
 import static ch.fihlon.alfons.data.db.tables.Employee.EMPLOYEE;
-import static ch.fihlon.alfons.data.db.tables.Registration.REGISTRATION;
+import static ch.fihlon.alfons.data.db.tables.Request.REQUEST;
 import static org.jooq.impl.DSL.concat;
 
-interface RegistrationService extends DSLContextGetter {
+interface RequestService extends DSLContextGetter {
 
-    default RegistrationRecord newRegistration(@Nullable final Employee employee) {
-        final var registration = dsl().newRecord(REGISTRATION);
+    default RequestRecord newRequestRecord(@Nullable final Employee employee) {
+        final var requestRecord = dsl().newRecord(REQUEST);
         if (employee != null) {
-            registration.setEmployeeId(employee.getId());
+            requestRecord.setEmployeeId(employee.getId());
         }
-        return registration;
+        return requestRecord;
     }
 
-    default Stream<RegistrationListEntity> findRegistrations(
+    default Stream<RequestListEntity> findRequest(
             final int offset, final int limit, @Nullable final String filter) {
         final var filterValue = filter == null || filter.isBlank() ? null : "%" + filter.trim() + "%";
         return dsl().select(EMPLOYEE.ID, EMPLOYEE.FIRST_NAME, EMPLOYEE.LAST_NAME,
                         CONFERENCE.ID, CONFERENCE.NAME, CONFERENCE.WEBSITE,
-                        REGISTRATION.REGISTRATION_DATE, REGISTRATION.ROLE, REGISTRATION.REASON,
-                        REGISTRATION.STATUS, REGISTRATION.STATUS_DATE, REGISTRATION.STATUS_COMMENT)
-                .from(REGISTRATION)
-                .leftJoin(EMPLOYEE).on(REGISTRATION.EMPLOYEE_ID.eq(EMPLOYEE.ID))
-                .leftJoin(CONFERENCE).on(REGISTRATION.CONFERENCE_ID.eq(CONFERENCE.ID))
+                        REQUEST.REQUEST_DATE, REQUEST.ROLE, REQUEST.REASON,
+                        REQUEST.STATUS, REQUEST.STATUS_DATE, REQUEST.STATUS_COMMENT)
+                .from(REQUEST)
+                .leftJoin(EMPLOYEE).on(REQUEST.EMPLOYEE_ID.eq(EMPLOYEE.ID))
+                .leftJoin(CONFERENCE).on(REQUEST.CONFERENCE_ID.eq(CONFERENCE.ID))
                 .where(filterValue == null ? DSL.noCondition()
                         : concat(EMPLOYEE.FIRST_NAME, DSL.value(" "), EMPLOYEE.LAST_NAME).like(filterValue)
                                 .or(CONFERENCE.NAME.like(filterValue)))
-                .orderBy(REGISTRATION.REGISTRATION_DATE.desc().nullsFirst())
+                .orderBy(REQUEST.REQUEST_DATE.desc().nullsFirst())
                 .offset(offset)
                 .limit(limit)
-                .fetchInto(RegistrationListEntity.class)
+                .fetchInto(RequestListEntity.class)
                 .stream();
     }
 
-    default Optional<RegistrationRecord> getRegistrationRecord(@NotNull final Long employeeId, @NotNull final Long conferenceId) {
-        return dsl().selectFrom(REGISTRATION)
-                .where(REGISTRATION.EMPLOYEE_ID.eq(employeeId).and(REGISTRATION.CONFERENCE_ID.eq(conferenceId)))
+    default Optional<RequestRecord> getRequestRecord(@NotNull final Long employeeId, @NotNull final Long conferenceId) {
+        return dsl().selectFrom(REQUEST)
+                .where(REQUEST.EMPLOYEE_ID.eq(employeeId).and(REQUEST.CONFERENCE_ID.eq(conferenceId)))
                 .fetchOptional();
     }
 
-    default void deleteRegistration(final long employeeId, final long conferenceId) {
-        getRegistrationRecord(employeeId, conferenceId).ifPresent(UpdatableRecordImpl::delete);
+    default void deleteRequest(final long employeeId, final long conferenceId) {
+        getRequestRecord(employeeId, conferenceId).ifPresent(UpdatableRecordImpl::delete);
     }
 }

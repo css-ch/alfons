@@ -16,11 +16,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ch.fihlon.alfons.ui.view.registration;
+package ch.fihlon.alfons.ui.view.request;
 
-import ch.fihlon.alfons.data.db.enums.RegistrationRole;
+import ch.fihlon.alfons.data.db.enums.RequestRole;
 import ch.fihlon.alfons.data.db.tables.records.ConferenceRecord;
-import ch.fihlon.alfons.data.db.tables.records.RegistrationRecord;
+import ch.fihlon.alfons.data.db.tables.records.RequestRecord;
 import ch.fihlon.alfons.data.entity.Employee;
 import ch.fihlon.alfons.data.service.DatabaseService;
 import ch.fihlon.alfons.ui.component.EditDialog;
@@ -37,26 +37,26 @@ import java.util.Objects;
 
 import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
 
-public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
+public final class RequestDialog extends EditDialog<RequestRecord> {
 
     @Serial
-    private static final long serialVersionUID = 8013889745455047755L;
+    private static final long serialVersionUID = -847356661566626092L;
 
     private final DatabaseService databaseService;
 
-    public RegistrationDialog(@NotNull final String title,
-                              @NotNull final DatabaseService databaseService) {
+    public RequestDialog(@NotNull final String title,
+                         @NotNull final DatabaseService databaseService) {
         super(title);
         this.databaseService = databaseService;
     }
 
     @Override
-    public void createForm(@NotNull final FormLayout formLayout, @NotNull final Binder<RegistrationRecord> binder) {
+    public void createForm(@NotNull final FormLayout formLayout, @NotNull final Binder<RequestRecord> binder) {
         final var editMode = binder.getBean().getConferenceId() != null;
 
         final var employee = new ComboBox<Employee>("Employee");
         final var conference = new ComboBox<ConferenceRecord>("Conference");
-        final var role = new ComboBox<RegistrationRole>("Role");
+        final var role = new ComboBox<RequestRole>("Role");
         final var reason = new TextArea("Reason");
 
         final var employees = databaseService.getAllEmployees().toList();
@@ -75,7 +75,7 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
         conference.setReadOnly(editMode);
 
         role.setRequiredIndicatorVisible(true);
-        role.setItems(RegistrationRole.values());
+        role.setItems(RequestRole.values());
         role.setItemLabelGenerator(item -> item.toString().substring(0, 1).toUpperCase() + item.toString().substring(1));
 
         reason.setRequiredIndicatorVisible(true);
@@ -88,20 +88,20 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
                         "Please select the employee who wants to attend the conference")
                 .bind(
                 record -> employees.stream().filter(e -> e.getId().equals(record.getEmployeeId())).findFirst().orElse(null),
-                (registrationRecord, item) -> registrationRecord.setEmployeeId(item.getId()));
+                (requestRecord, item) -> requestRecord.setEmployeeId(item.getId()));
         binder.forField(conference)
                 .withValidator(Objects::nonNull,
                         "Please select the conference the employee wants to attend")
                 .bind(
                 record -> conferences.stream().filter(c -> c.getId().equals(record.getConferenceId())).findFirst().orElse(null),
-                (registrationRecord, item) -> registrationRecord.setConferenceId(item.getId()));
+                (requestRecord, item) -> requestRecord.setConferenceId(item.getId()));
         binder.forField(role)
                 .withValidator(Objects::nonNull,
                         "Please select the role at the conference")
-                .bind(RegistrationRecord::getRole, RegistrationRecord::setRole);
+                .bind(RequestRecord::getRole, RequestRecord::setRole);
         binder.forField(reason)
                 .withValidator(new StringLengthValidator(
                         "Please state the reason for the conference visit", 30, 500))
-                .bind(RegistrationRecord::getReason, RegistrationRecord::setReason);
+                .bind(RequestRecord::getReason, RequestRecord::setReason);
     }
 }

@@ -134,12 +134,12 @@ public final class ConferencesView extends ResizableView implements HasUrlParame
                 .setAutoWidth(true)
                 .setFlexGrow(0)
                 .setKey("endDate");
-        final var registrationCountRenderer = LitRenderer.<Conference>of(
-                        "<a href=\"/registrations?filter=${item.filterValue}\">${item.registrationCount}</a>")
-                .withProperty("registrationCount", Conference::registrationCount)
+        final var requestCountRenderer = LitRenderer.<Conference>of(
+                        "<a href=\"/requests?filter=${item.filterValue}\">${item.requestCount}</a>")
+                .withProperty("requestCount", Conference::requestCount)
                 .withProperty("filterValue", conference -> URLEncoder.encode(conference.name(), UTF_8));
-        grid.addColumn(registrationCountRenderer)
-                .setHeader("Registrations")
+        grid.addColumn(requestCountRenderer)
+                .setHeader("Requests")
                 .setAutoWidth(true)
                 .setTextAlign(ColumnTextAlign.CENTER)
                 .setFlexGrow(0);
@@ -149,7 +149,7 @@ public final class ConferencesView extends ResizableView implements HasUrlParame
             editButton.setTitle("Edit this conference");
             final var deleteButton = new EnhancedButton(new Icon(VaadinIcon.TRASH), clickEvent -> deleteConference(conference));
             deleteButton.setTitle("Delete this conference");
-            deleteButton.setEnabled(conference.registrationCount() == 0);
+            deleteButton.setEnabled(conference.requestCount() == 0);
             return new HorizontalLayout(editButton, deleteButton);
         }))
                 .setHeader("Actions")

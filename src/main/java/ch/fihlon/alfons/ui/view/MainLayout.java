@@ -24,7 +24,7 @@ import ch.fihlon.alfons.data.db.enums.EmployeeTheme;
 import ch.fihlon.alfons.security.AuthenticatedEmployee;
 import ch.fihlon.alfons.ui.view.about.AboutView;
 import ch.fihlon.alfons.ui.view.conference.ConferencesView;
-import ch.fihlon.alfons.ui.view.registration.RegistrationsView;
+import ch.fihlon.alfons.ui.view.request.RequestsView;
 import ch.fihlon.alfons.ui.view.settings.SettingsView;
 import ch.fihlon.alfons.util.GravatarUtil;
 import com.vaadin.flow.component.UI;
@@ -163,7 +163,7 @@ public final class MainLayout extends AppLayout {
         final var nav = new AppNav();
 
         final var views = new ArrayList<MainMenuItem>();
-        views.add(new MainMenuItem("Registrations", RegistrationsView.class, LineAwesomeIcon.USERS_SOLID));
+        views.add(new MainMenuItem("Requests", RequestsView.class, LineAwesomeIcon.USERS_SOLID));
         views.add(new MainMenuItem("Conferences", ConferencesView.class, LineAwesomeIcon.UNIVERSITY_SOLID));
         views.add(new MainMenuItem("Settings", SettingsView.class, LineAwesomeIcon.COG_SOLID));
         views.add(new MainMenuItem("About", AboutView.class, LineAwesomeIcon.INFO_CIRCLE_SOLID));
