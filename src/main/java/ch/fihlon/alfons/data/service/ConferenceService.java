@@ -19,6 +19,7 @@
 package ch.fihlon.alfons.data.service;
 
 import ch.fihlon.alfons.data.db.tables.records.ConferenceRecord;
+import ch.fihlon.alfons.data.entity.Conference;
 import ch.fihlon.alfons.data.service.getter.DSLContextGetter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,14 +35,14 @@ import static ch.fihlon.alfons.data.db.tables.Registration.REGISTRATION;
 
 interface ConferenceService extends DSLContextGetter {
 
-    default ConferenceRecord newConference() {
+    default ConferenceRecord newConferenceRecord() {
         final var conference = dsl().newRecord(CONFERENCE);
         conference.setName("");
         conference.setWebsite("");
         return conference;
     }
 
-    default Stream<ch.fihlon.alfons.data.entity.Conference> findConferences(final int offset, final int limit, @Nullable final String filter) {
+    default Stream<Conference> findConferences(final int offset, final int limit, @Nullable final String filter) {
         final var filterValue = filter == null || filter.isBlank() ? null : "%" + filter.trim() + "%";
         return dsl().select(CONFERENCE.asterisk(), DSL.count(REGISTRATION.EMPLOYEE_ID))
                 .from(CONFERENCE)
@@ -51,18 +52,14 @@ interface ConferenceService extends DSLContextGetter {
                 .orderBy(CONFERENCE.BEGIN_DATE.desc().nullsFirst(), CONFERENCE.NAME)
                 .offset(offset)
                 .limit(limit)
-                .fetchInto(ch.fihlon.alfons.data.entity.Conference.class)
+                .fetchInto(Conference.class)
                 .stream();
     }
 
-    default Stream<ch.fihlon.alfons.data.entity.Conference> getFutureConferences() {
-        return dsl().select(CONFERENCE.asterisk(), DSL.count(REGISTRATION.EMPLOYEE_ID))
-                .from(CONFERENCE)
-                .leftOuterJoin(REGISTRATION).on(REGISTRATION.CONFERENCE_ID.eq(CONFERENCE.ID))
+    default Stream<ConferenceRecord> getFutureConferenceRecords() {
+        return dsl().selectFrom(CONFERENCE)
                 .where(CONFERENCE.BEGIN_DATE.greaterThan(LocalDate.now()))
-                .groupBy(CONFERENCE.ID)
                 .orderBy(CONFERENCE.BEGIN_DATE, CONFERENCE.NAME)
-                .fetchInto(ch.fihlon.alfons.data.entity.Conference.class)
                 .stream();
     }
 

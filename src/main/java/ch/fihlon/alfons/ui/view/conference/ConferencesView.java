@@ -166,8 +166,8 @@ public final class ConferencesView extends ResizableView implements HasUrlParame
     }
 
     private void showConferenceDialog(@Nullable final Conference conference) {
-        final var conferenceRecord = conference == null || conference.id() == null ? databaseService.newConference()
-                : databaseService.getConferenceRecord(conference.id()).orElse(databaseService.newConference());
+        final var conferenceRecord = conference == null || conference.id() == null ? databaseService.newConferenceRecord()
+                : databaseService.getConferenceRecord(conference.id()).orElse(databaseService.newConferenceRecord());
         final var dialog = new ConferenceDialog(conferenceRecord.getId() != null ? "Edit Conference" : "New Conference");
         dialog.open(conferenceRecord, this::reloadConferences);
     }

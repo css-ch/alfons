@@ -19,8 +19,8 @@
 package ch.fihlon.alfons.ui.view.registration;
 
 import ch.fihlon.alfons.data.db.enums.RegistrationRole;
+import ch.fihlon.alfons.data.db.tables.records.ConferenceRecord;
 import ch.fihlon.alfons.data.db.tables.records.RegistrationRecord;
-import ch.fihlon.alfons.data.entity.Conference;
 import ch.fihlon.alfons.data.entity.Employee;
 import ch.fihlon.alfons.data.service.DatabaseService;
 import ch.fihlon.alfons.ui.component.EditDialog;
@@ -32,6 +32,7 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
+import java.util.List;
 import java.util.Objects;
 
 import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
@@ -54,12 +55,14 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
         final var editMode = binder.getBean().getConferenceId() != null;
 
         final var employee = new ComboBox<Employee>("Employee");
-        final var conference = new ComboBox<Conference>("Conference");
+        final var conference = new ComboBox<ConferenceRecord>("Conference");
         final var role = new ComboBox<RegistrationRole>("Role");
         final var reason = new TextArea("Reason");
 
         final var employees = databaseService.getAllEmployees().toList();
-        final var conferences = databaseService.getFutureConferences().toList();
+        final var conferences = editMode
+                ? List.of(databaseService.getConferenceRecord(binder.getBean().getConferenceId()).orElseThrow())
+                : databaseService.getFutureConferenceRecords().toList();
 
         employee.setRequiredIndicatorVisible(true);
         employee.setItems(employees);
@@ -68,7 +71,7 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
 
         conference.setRequiredIndicatorVisible(true);
         conference.setItems(conferences);
-        conference.setItemLabelGenerator(Conference::name);
+        conference.setItemLabelGenerator(ConferenceRecord::getName);
         conference.setReadOnly(editMode);
 
         role.setRequiredIndicatorVisible(true);
@@ -90,8 +93,8 @@ public final class RegistrationDialog extends EditDialog<RegistrationRecord> {
                 .withValidator(Objects::nonNull,
                         "Please select the conference the employee wants to attend")
                 .bind(
-                record -> conferences.stream().filter(c -> c.id().equals(record.getConferenceId())).findFirst().orElse(null),
-                (registrationRecord, item) -> registrationRecord.setConferenceId(item.id()));
+                record -> conferences.stream().filter(c -> c.getId().equals(record.getConferenceId())).findFirst().orElse(null),
+                (registrationRecord, item) -> registrationRecord.setConferenceId(item.getId()));
         binder.forField(role)
                 .withValidator(Objects::nonNull,
                         "Please select the role at the conference")
