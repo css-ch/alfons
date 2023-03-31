@@ -30,6 +30,7 @@ import ch.fihlon.alfons.ui.component.ResizableView;
 import ch.fihlon.alfons.ui.view.MainLayout;
 import com.opencsv.CSVWriter;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -139,13 +140,21 @@ public final class RequestsView extends ResizableView implements HasUrlParameter
                 .setFlexGrow(0);
 
         grid.addColumn(new ComponentRenderer<>(requestListEntity -> {
+            final var approveButton = new EnhancedButton(new Icon(VaadinIcon.CHECK), clickEvent -> approveRequest(requestListEntity));
+            approveButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+            approveButton.setTitle("Approve this request");
+            final var declineButton = new EnhancedButton(new Icon(VaadinIcon.BAN), clickEvent -> declineRequest(requestListEntity));
+            declineButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+            declineButton.setTitle("Decline this request");
             final var editButton = new EnhancedButton(new Icon(VaadinIcon.EDIT), clickEvent -> showRequestDialog(requestListEntity));
             editButton.setTitle("Edit this request");
             final var deleteButton = new EnhancedButton(new Icon(VaadinIcon.TRASH), clickEvent -> deleteRequest(requestListEntity));
             deleteButton.setTitle("Delete this request");
             deleteButton.setEnabled(requestListEntity.status().equals(RequestStatus.submitted)
                     && (user.getId().equals(requestListEntity.employeeId()) || user.getAdmin()));
-            return new HorizontalLayout(editButton, deleteButton);
+            return user.getAdmin() && requestListEntity.status().equals(RequestStatus.submitted)
+                    ? new HorizontalLayout(editButton, deleteButton, approveButton, declineButton)
+                    : new HorizontalLayout(editButton, deleteButton);
         }))
                 .setHeader("Actions")
                 .setAutoWidth(true)
@@ -161,6 +170,34 @@ public final class RequestsView extends ResizableView implements HasUrlParameter
         final var dialog = new RequestDialog(requestRecord.getConferenceId() != null
                 ? "Edit Request" : "New Request", databaseService);
         dialog.open(requestRecord, this::reloadRequests);
+    }
+
+    private void approveRequest(@NotNull final RequestListEntity requestListEntity) {
+        new ConfirmDialog("Approve request",
+                String.format("Are you sure you want to approve the request from \"%s %s\" for \"%s\"?",
+                        requestListEntity.employeeFirstName(), requestListEntity.employeeLastName(),
+                        requestListEntity.conferenceName()),
+                "Approve", dialogEvent -> {
+            databaseService.updateRequestStatus(requestListEntity.employeeId(), requestListEntity.conferenceId(), RequestStatus.approved);
+            reloadRequests();
+            dialogEvent.getSource().close();
+        },
+                "Cancel", dialogEvent -> dialogEvent.getSource().close()
+        ).open();
+    }
+
+    private void declineRequest(@NotNull final RequestListEntity requestListEntity) {
+        new ConfirmDialog("Decline request",
+                String.format("Are you sure you want to decline the request from \"%s %s\" for \"%s\"?",
+                        requestListEntity.employeeFirstName(), requestListEntity.employeeLastName(),
+                        requestListEntity.conferenceName()),
+                "Decline", dialogEvent -> {
+            databaseService.updateRequestStatus(requestListEntity.employeeId(), requestListEntity.conferenceId(), RequestStatus.declined);
+            reloadRequests();
+            dialogEvent.getSource().close();
+        },
+                "Cancel", dialogEvent -> dialogEvent.getSource().close()
+        ).open();
     }
 
     private void deleteRequest(@NotNull final RequestListEntity requestListEntity) {

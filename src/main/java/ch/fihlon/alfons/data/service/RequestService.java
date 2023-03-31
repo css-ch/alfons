@@ -18,6 +18,7 @@
 
 package ch.fihlon.alfons.data.service;
 
+import ch.fihlon.alfons.data.db.enums.RequestStatus;
 import ch.fihlon.alfons.data.db.tables.records.RequestRecord;
 import ch.fihlon.alfons.data.entity.Employee;
 import ch.fihlon.alfons.data.entity.RequestListEntity;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jooq.impl.DSL;
 import org.jooq.impl.UpdatableRecordImpl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -73,5 +75,13 @@ interface RequestService extends DSLContextGetter {
 
     default void deleteRequest(final long employeeId, final long conferenceId) {
         getRequestRecord(employeeId, conferenceId).ifPresent(UpdatableRecordImpl::delete);
+    }
+
+    default void updateRequestStatus(final long employeeId, final long conferenceId, final RequestStatus status) {
+        dsl().update(REQUEST)
+                .set(REQUEST.STATUS, status)
+                .set(REQUEST.STATUS_DATE, LocalDateTime.now())
+                .where(REQUEST.EMPLOYEE_ID.eq(employeeId).and(REQUEST.CONFERENCE_ID.eq(conferenceId)))
+                .execute();
     }
 }
