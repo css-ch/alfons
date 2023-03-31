@@ -165,7 +165,7 @@ public final class RequestsView extends ResizableView implements HasUrlParameter
 
     private void deleteRequest(@NotNull final RequestListEntity requestListEntity) {
         new ConfirmDialog("Confirm deletion",
-                String.format("Are you sure you want to permanently delete the request for \"%s %s\" for \"%s\"?",
+                String.format("Are you sure you want to permanently delete the request from \"%s %s\" for \"%s\"?",
                         requestListEntity.employeeFirstName(), requestListEntity.employeeLastName(),
                         requestListEntity.conferenceName()),
                 "Delete", dialogEvent -> {
