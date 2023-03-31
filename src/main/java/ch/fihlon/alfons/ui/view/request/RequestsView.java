@@ -55,6 +55,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.Serial;
 import java.io.StringWriter;
+import java.net.URLEncoder;
 import java.util.List;
 
 import static ch.fihlon.alfons.util.FormatterUtil.formatDateTime;
@@ -124,12 +125,12 @@ public final class RequestsView extends ResizableView implements HasUrlParameter
                 .withProperty("firstName", RequestListEntity::employeeFirstName)
                 .withProperty("lastName", RequestListEntity::employeeLastName))
                 .setHeader("Employee").setAutoWidth(true).setFlexGrow(1);
-        grid.addColumn(LitRenderer.<RequestListEntity>of("<a href=\"${item.website}\" target=\"_blank\">${item.conference}</a>")
+        grid.addColumn(LitRenderer.<RequestListEntity>of("<a href=\"/requests?filter=${item.filterValue}\">${item.conference}</a>")
                 .withProperty("conference", RequestListEntity::conferenceName)
-                .withProperty("website", RequestListEntity::conferenceWebsite))
+                .withProperty("filterValue", request -> URLEncoder.encode(request.conferenceName(), UTF_8)))
                 .setHeader("Conference").setAutoWidth(true).setFlexGrow(1);
         grid.addColumn(requestListEntity -> formatDateTime(requestListEntity.requestDate()))
-                .setHeader("Date")
+                .setHeader("Request Date")
                 .setAutoWidth(true)
                 .setFlexGrow(0);
         grid.addColumn(RequestListEntity::status)
