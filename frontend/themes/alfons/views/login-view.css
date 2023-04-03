@@ -17,5 +17,5 @@
  */
 
 vaadin-login-overlay-wrapper::part(description) {
-    font-size: 0.95em;
+    font-size: 0.9em;
 }
