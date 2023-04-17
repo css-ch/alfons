@@ -32,14 +32,12 @@ MAIL_PORT=25
 
 ### Database
 
-*Alfons* needs a database to store the business data. All JDBC compatible databases are supported. By default, *Alfons* uses an in memory [H2](https://www.h2database.com/) database. You don't need to configure anything, but you will lose all your data when you stop *Alfons*.
-
-To permanently store data, we highly recommend [MariaDB](https://mariadb.org/), just because we are using it during development, and it is highly tested with *Alfons*. Please make sure that your database is using a unicode character set to avoid problems storing data containing unicode characters.
+*Alfons* needs a database to store the business data. By default, *Alfons* comes with [MariaDB](https://mariadb.org/) drivers, which is recommended because we are using it during development and it is highly tested with *Alfons*. All JDBC compatible databases are supported, but you need to configure the JDBC driver dependencies accordingly. Please make sure that your database is using a unicode character set to avoid problems storing data containing unicode characters.
 
 The `DB_USER` is used to access the *Alfons* database including automatic schema migrations and needs `ALL PRIVILEGES`.
 
 ```
-DB_URL=jdbc:mariadb://localhost:3306/alfons?serverTimezone\=Europe/Zurich
+DB_URL=jdbc:mariadb://localhost:3306/alfons?serverTimezone\=Europe/Zurich&allowMultiQueries=true
 DB_USER=johndoe
 DB_PASS=verysecret
 ```
