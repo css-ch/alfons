@@ -29,9 +29,8 @@ class LoginViewTest extends KaribuTest {
 
     @Test
     void loginView() {
-        RouterUtilsKt.navigateTo("/login");
-        final var loginView = _get(LoginView.class);
-        assertTrue(loginView.isVisible());
+        RouterUtilsKt.navigateTo("/");
+        assertTrue(_get(LoginView.class).isVisible());
     }
 
 }
