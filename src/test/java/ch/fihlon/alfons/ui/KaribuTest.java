@@ -78,6 +78,25 @@ public abstract class KaribuTest {
     private ApplicationContext applicationContext;
 
     /**
+     * @see org.junit.jupiter.api.BeforeEach
+     */
+    @BeforeEach
+    public void beforeEach() {
+        final Function0<UI> uiFactory = UI::new;
+        final var servlet = new MockSpringServlet(routes, applicationContext, uiFactory);
+        MockVaadin.setup(uiFactory, servlet);
+    }
+
+    /**
+     * @see org.junit.jupiter.api.AfterEach
+     */
+    @AfterEach
+    public void afterEach() {
+        logout();
+        MockVaadin.tearDown();
+    }
+
+    /**
      * Get access to the green mail extension to verify mail delivery.
      *
      * @return green mail extension
@@ -120,32 +139,6 @@ public abstract class KaribuTest {
             request.setUserPrincipalInt(null);
             request.setUserInRole((principal, role) -> false);
         }
-    }
-
-    /**
-     * @see org.junit.jupiter.api.BeforeEach
-     */
-    @BeforeEach
-    public void setup() {
-        final Function0<UI> uiFactory = UI::new;
-        final var servlet = new MockSpringServlet(routes, applicationContext, uiFactory);
-        MockVaadin.setup(uiFactory, servlet);
-    }
-
-    /**
-     * @see org.junit.jupiter.api.AfterEach
-     */
-    @AfterEach
-    public void tearDown() {
-        MockVaadin.tearDown();
-    }
-
-    /**
-     * @see org.junit.jupiter.api.AfterEach
-     */
-    @AfterEach
-    public void performLogout() {
-        logout();
     }
 
 }
