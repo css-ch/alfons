@@ -61,19 +61,20 @@ class ConferencesIT extends KaribuTest {
         login("jane.doe@localhost", "user", List.of(Role.USER));
         RouterUtilsKt.navigateTo("/conferences");
         final var conferencesView = _get(ConferencesView.class);
+        final var filterField = _get(conferencesView, TextField.class, spec -> spec.withPlaceholder("Filter"));
 
         @SuppressWarnings("unchecked") final Grid<Conference> grid = _get(conferencesView, Grid.class);
         GridKt.expectRows(grid, 2);
 
-        _get(conferencesView, TextField.class, spec -> spec.withPlaceholder("Filter")).setValue("Test Conference 1");
+        filterField.setValue("Test Conference 1");
         GridKt.expectRows(grid, 1);
         assertEquals("Test Conference 1", GridKt._get(grid, 0).name());
 
-        _get(conferencesView, TextField.class, spec -> spec.withPlaceholder("Filter")).setValue("Test Conference 2");
+        filterField.setValue("Test Conference 2");
         GridKt.expectRows(grid, 1);
         assertEquals("Test Conference 2", GridKt._get(grid, 0).name());
 
-        _get(conferencesView, TextField.class, spec -> spec.withPlaceholder("Filter")).setValue("");
+        filterField.setValue("");
         GridKt.expectRows(grid, 2);
     }
 
