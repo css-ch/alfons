@@ -158,7 +158,8 @@ public final class RequestsView extends ResizableView implements HasUrlParameter
         }))
                 .setHeader("Actions")
                 .setAutoWidth(true)
-                .setFlexGrow(0);
+                .setFlexGrow(0)
+                .setKey("actions");
 
         grid.setHeightFull();
     }
