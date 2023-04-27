@@ -42,7 +42,7 @@ import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static com.github.mvysny.kaributesting.v10.pro.ConfirmDialogKt._fireConfirm;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ConferencesViewTest extends KaribuTest {
+class ConferencesIT extends KaribuTest {
 
     @Test
     void showTwoConferencesOrderedByDateDesc() {

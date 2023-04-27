@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class LoginViewTest extends KaribuTest {
+class LoginIT extends KaribuTest {
 
     @Test
     void loginView() {

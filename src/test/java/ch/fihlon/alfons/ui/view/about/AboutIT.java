@@ -34,7 +34,7 @@ import static com.github.mvysny.kaributesting.v10.LocatorJ._get;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class AboutViewTest extends KaribuTest {
+class AboutIT extends KaribuTest {
 
     @Test
     void aboutView() {
