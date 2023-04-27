@@ -62,7 +62,7 @@ import java.util.List;
 public abstract class KaribuTest {
 
     @RegisterExtension
-    private static final GreenMailExtension GREEN_MAIL = new GreenMailExtension(ServerSetupTest.SMTP)
+    public static final GreenMailExtension GREEN_MAIL = new GreenMailExtension(ServerSetupTest.SMTP)
             .withConfiguration(GreenMailConfiguration.aConfig()
                     .withUser("alfons", "s3cr3t"))
             .withPerMethodLifecycle(false);
@@ -94,15 +94,6 @@ public abstract class KaribuTest {
     public void afterEach() {
         logout();
         MockVaadin.tearDown();
-    }
-
-    /**
-     * Get access to the green mail extension to verify mail delivery.
-     *
-     * @return green mail extension
-     */
-    protected GreenMailExtension getGreenMail() {
-        return GREEN_MAIL;
     }
 
     /**
