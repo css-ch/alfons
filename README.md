@@ -46,11 +46,42 @@ The database schema will be migrated automatically by *Alfons*.
 
 #### Important MySQL and MariaDB configuration
 
-MySQL and MariaDB have a possible silent truncation problem with the `GROUP_CONCAT` command. To avoid this it is necessary, to configure these two databases to allow multi queries. Just add `allowMultiQueries=true` to the JDBC database URL like in this example (you may need to scroll the example code to the right):
+MySQL and MariaDB have a possible silent truncation problem with the `GROUP_CONCAT` command. To avoid this it is necessary, to configure these two databases to allow multi-queries. Just add `allowMultiQueries=true` to the JDBC database URL like in this example (you may need to scroll the example code to the right):
 
 ```
 DB_URL=jdbc:mariadb://localhost:3306/alfons?serverTimezone\=Europe/Zurich&allowMultiQueries=true
 ```
+
+#### Run MariaDB with temporary storage
+
+If you don't have a database available, you can use Docker to easily run a MariaDB instance. Use the following command if you want temporary storage (your data will be gone when you stop this MariaDB instance).
+
+```
+docker run -d -p 3306:3306 --rm --name alfonsdb \
+    -e MARIADB_RANDOM_ROOT_PASSWORD=yes \
+    -e MARIADB_DATABASE=alfons \
+    -e MARIADB_USER=alfons \
+    -e MARIADB_PASSWORD=zitterbacke \
+    mariadb:10.11.2
+```
+
+This will run MariaDB version 10.11.2 on port 3306. An empty database with the name "alfons" and a user with the name "alfons" and password "zitterbacke" will be created. The user has all privileges on the database "alfons".
+
+#### Run MariaDB with permanent storage
+
+If you don't have a database available, you can use Docker to easily run a MariaDB instance. Use the following command if you want permanent storage (your data will be persistet on your drive). Replace "/your/own/databadir" with an existing directory on one of your drives. Don't replace "mysql" in this command -- it runs MariaDB but the name of the data directory inside of the container is still "mysql" (MariaDB is a fork of MySQL).
+
+```
+docker run -d -p 3306:3306 --rm --name alfonsdb \
+    -v /your/own/datadir:/var/lib/mysql
+    -e MARIADB_RANDOM_ROOT_PASSWORD=yes \
+    -e MARIADB_DATABASE=alfons \
+    -e MARIADB_USER=alfons \
+    -e MARIADB_PASSWORD=zitterbacke \
+    mariadb:10.11.2
+```
+
+This will run MariaDB version 10.11.2 on port 3306. An empty database with the name "alfons" and a user with the name "alfons" and password "zitterbacke" will be created. The user has all privileges on the database "alfons".
 
 ### Admin
 
