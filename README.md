@@ -52,37 +52,6 @@ MySQL and MariaDB have a possible silent truncation problem with the `GROUP_CONC
 DB_URL=jdbc:mariadb://localhost:3306/alfons?serverTimezone\=Europe/Zurich&allowMultiQueries=true
 ```
 
-#### Run MariaDB with temporary storage
-
-If you don't have a database available, you can use Docker to easily run a MariaDB instance. Use the following command if you want temporary storage (your data will be gone when you stop this MariaDB instance).
-
-```
-docker run -d -p 3306:3306 --rm --name alfonsdb \
-    -e MARIADB_RANDOM_ROOT_PASSWORD=yes \
-    -e MARIADB_DATABASE=alfons \
-    -e MARIADB_USER=alfons \
-    -e MARIADB_PASSWORD=zitterbacke \
-    mariadb:10.11.2
-```
-
-This will run MariaDB version 10.11.2 on port 3306. An empty database with the name "alfons" and a user with the name "alfons" and password "zitterbacke" will be created. The user has all privileges on the database "alfons".
-
-#### Run MariaDB with permanent storage
-
-If you don't have a database available, you can use Docker to easily run a MariaDB instance. Use the following command if you want permanent storage (your data will be persistet on your drive). Replace "/your/own/databadir" with an existing directory on one of your drives. Don't replace "mysql" in this command -- it runs MariaDB but the name of the data directory inside of the container is still "mysql" (MariaDB is a fork of MySQL).
-
-```
-docker run -d -p 3306:3306 --rm --name alfonsdb \
-    -v /your/own/datadir:/var/lib/mysql
-    -e MARIADB_RANDOM_ROOT_PASSWORD=yes \
-    -e MARIADB_DATABASE=alfons \
-    -e MARIADB_USER=alfons \
-    -e MARIADB_PASSWORD=zitterbacke \
-    mariadb:10.11.2
-```
-
-This will run MariaDB version 10.11.2 on port 3306. An empty database with the name "alfons" and a user with the name "alfons" and password "zitterbacke" will be created. The user has all privileges on the database "alfons".
-
 ### Admin
 
 You will need at least one administrator. Therefore, you should add yourself as admin to the database, **after** you have started *Alfons* (because the database tables will be created at the first start):
@@ -96,13 +65,46 @@ Then, open `http://localhost:8080/login`, enter your email address, and click on
 
 ## Running the application
 
-The project is a standard Maven project. To run it from the command line,
-type `mvnw` (Windows), or `./mvnw` (Mac & Linux), then open
-http://localhost:8080 in your browser.
+### Run a database
 
-You can also import the project to your IDE of choice as you would with any
-Maven project. Read more on [how to import Vaadin projects to different 
-IDEs](https://vaadin.com/docs/latest/guide/step-by-step/importing) (Eclipse, IntelliJ IDEA, NetBeans, and VS Code).
+*Alfons* needs a database. If you don't have a database available, you can use Docker to easily run a MariaDB instance. You can run it with temporary storage (your data will be gone when you stop the MariaDB instance) or with permanent storage (your data will be persisted on your drive). The following examples will run MariaDB version 10.11.2 on port 3306. An empty database with the name "alfons" and a user with the name "alfons" and password "zitterbacke" will be created. The user has all privileges on the database "alfons".
+
+#### Run MariaDB with temporary storage
+
+```
+docker run -d -p 3306:3306 --rm --name alfonsdb \
+    -e MARIADB_RANDOM_ROOT_PASSWORD=yes \
+    -e MARIADB_DATABASE=alfons \
+    -e MARIADB_USER=alfons \
+    -e MARIADB_PASSWORD=zitterbacke \
+    mariadb:10.11.2
+```
+
+#### Run MariaDB with permanent storage
+
+```
+docker run -d -p 3306:3306 --rm --name alfonsdb \
+    -v /your/own/datadir:/var/lib/mysql
+    -e MARIADB_RANDOM_ROOT_PASSWORD=yes \
+    -e MARIADB_DATABASE=alfons \
+    -e MARIADB_USER=alfons \
+    -e MARIADB_PASSWORD=zitterbacke \
+    mariadb:10.11.2
+```
+
+Replace "/your/own/databadir" with an existing directory on one of your drives. Don't replace "mysql" in this command -- it runs MariaDB but the name of the data directory inside the container is still "mysql" (because MariaDB is a fork of MySQL).
+
+### Run Alfons
+
+*Alfons* needs environment variables (see [Configuration](#configuration)) to work properly. You can specify them system-wide, in your shell, or for the actual command. If you run *Alfons* from inside your IDE, you can specify the environment variables in the run configuration.
+
+#### Run Alfons using Maven
+
+This project is a standard Maven project. It makes use of the Maven Wrapper, so you don't need to have Maven installed on your machine. To run *Alfons* from the command line, type `mvnw` (Windows), or `./mvnw` (Mac & Linux), then open http://localhost:8080 in your browser.
+
+#### Run Alfons from your IDE
+
+You can also import the project to your IDE of choice as you would with any Maven project. Read more on [how to import Vaadin projects to different IDEs](https://vaadin.com/docs/latest/guide/step-by-step/importing) (Eclipse, IntelliJ IDEA, NetBeans, and VS Code).
 
 ## Deploying to Production
 
