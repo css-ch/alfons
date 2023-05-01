@@ -108,20 +108,27 @@ You can also import the project to your IDE of choice as you would with any Mave
 
 ## Deploying to Production
 
-To create a production build, call `mvnw clean package -Pproduction` (Windows),
-or `./mvnw clean package -Pproduction` (Mac & Linux).
-This will build a JAR file with all the dependencies and front-end resources,
-ready to be deployed. The file can be found in the `target` folder after the build completes.
+Very important: Don't forget the environment variables to [configure](#configuration) *Alfons*, or it will not work!
 
-Once the JAR file is built, you can run it using
-`java -jar target/alfons-1.0-SNAPSHOT.jar`
+### Production build
 
-## Deploying using Docker
-
-To build the Dockerized version of the project, run
+Use the following command to create a production build:
 
 ```
 ./mvnw clean package -Pproduction
+```
+
+This will build a JAR file with all the dependencies and front-end resources, ready to be deployed. The file can be found in the `target` folder after the build completes.  Once the JAR file is built, you can run it using
+
+```
+java -jar target/alfons-1.0-SNAPSHOT.jar
+```
+
+### Deploying using Docker
+
+To build the Dockerized version of the project, run the [production build](#production-build) followed by:
+
+```
 docker build . -t alfons:latest
 ```
 
@@ -131,11 +138,11 @@ Once the Docker image is correctly built, you can test it locally using
 docker run -p 8080:8080 alfons:latest
 ```
 
-## Deploying using Kubernetes
+### Deploying using Kubernetes
 
 We assume here that you have the Kubernetes cluster from Docker Desktop running (can be enabled in the settings).
 
-First build the Docker image for your application. You then need to make the Docker image available to you cluster. With Docker Desktop Kubernetes, this happens automatically. With Minikube, you can run `eval $(minikube docker-env)` and then build the image to make it available. For other clusters, you need to publish to a Docker repository or check the documentation for the cluster.
+First build the [Docker image](#deploying-using-docker) for your application. You then need to make the Docker image available to your cluster. With Docker Desktop Kubernetes, this happens automatically. With Minikube, you can run `eval $(minikube docker-env)` and then build the image to make it available. For other clusters, you need to publish to a Docker repository or check the documentation for the cluster.
 
 The included `kubernetes.yaml` sets up a deployment with 2 pods (server instances) and a load balancer service. You can deploy the application on a Kubernetes cluster using
 
@@ -148,7 +155,7 @@ If you have something else running on port 8000, you need to change the load bal
 
 Tip: If you want to understand which pod your requests go to, you can add the value of `VaadinServletRequest.getCurrent().getLocalAddr()` somewhere in your UI.
 
-### Troubleshooting
+#### Troubleshooting
 
 If something is not working, you can try one of the following commands to see what is deployed and their status.
 
