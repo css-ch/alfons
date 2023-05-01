@@ -108,8 +108,6 @@ You can also import the project to your IDE of choice as you would with any Mave
 
 ## Deploying to Production
 
-Very important: Don't forget the environment variables to [configure](#configuration) *Alfons*, or it will not work!
-
 ### Production build
 
 Use the following command to create a production build:
@@ -123,6 +121,8 @@ This will build a JAR file with all the dependencies and front-end resources, re
 ```
 java -jar target/alfons-1.0-SNAPSHOT.jar
 ```
+
+**Very important: Don't forget the environment variables to [configure](#configuration) *Alfons*, or it will not work!**
 
 ### Deploying using Docker
 
@@ -138,6 +138,8 @@ Once the Docker image is correctly built, you can test it locally using
 docker run -p 8080:8080 alfons:latest
 ```
 
+**Very important: Don't forget the environment variables to [configure](#configuration) *Alfons*, or it will not work!**
+
 ### Deploying using Kubernetes
 
 We assume here that you have the Kubernetes cluster from Docker Desktop running (can be enabled in the settings).
@@ -150,8 +152,9 @@ The included `kubernetes.yaml` sets up a deployment with 2 pods (server instance
 kubectl apply -f kubernetes.yaml
 ```
 
-If everything works, you can access your application by opening http://localhost:8000/.
-If you have something else running on port 8000, you need to change the load balancer port in `kubernetes.yaml`.
+**Very important: Don't forget the environment variables to [configure](#configuration) *Alfons*, or it will not work!**
+
+If everything works, you can access your application by opening http://localhost:8000/. If you have something else running on port 8000, you need to change the load balancer port in `kubernetes.yaml`.
 
 Tip: If you want to understand which pod your requests go to, you can add the value of `VaadinServletRequest.getCurrent().getLocalAddr()` somewhere in your UI.
 
