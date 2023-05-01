@@ -7,7 +7,7 @@ With approval workflow, budget management, and reports.**
 
 ## Architecture
 
-*Alfons* is written using the [Java programming language](https://en.wikipedia.org/wiki/Java_(programming_language)). The main framework is [Spring](https://spring.io/). For the user interface, we use [Vaadin Flow](https://vaadin.com/flow). To access the database, we rely on [jOOQ](https://www.jooq.org/). To create and update the structure of the database, [Flyway](https://flywaydb.org/) is used. The build is manages by [Apache Maven](https://maven.apache.org/).
+*Alfons* is written using the [Java programming language](https://en.wikipedia.org/wiki/Java_(programming_language)). The main framework is [Spring](https://spring.io/). For the user interface, we use [Vaadin Flow](https://vaadin.com/flow). To access the database, we rely on [jOOQ](https://www.jooq.org/). To create and update the structure of the database, [Flyway](https://flywaydb.org/) is used. The build is managed by [Apache Maven](https://maven.apache.org/).
 
 ## Configuration
 
